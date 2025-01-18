@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Start Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Общие стили */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(45deg, #ff7e5f, #feb47b, #6a11cb, #2575fc);
+            background-size: 400% 400%;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            animation: gradientAnimation 20s ease infinite;
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        /* Стили для ссылок */
+        .links a {
+            margin: 15px;
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            text-decoration: none;
+            color: #fff;
+            background-color: #ff6b6b;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .links a:hover {
+            background-color: #ff4c4c;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Изображение (квадратный логотип) */
+        img {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            margin-top: 20px;
+            border-radius: 10px;
+            border: 5px solid #fff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Анимация фона с более плавными и разнообразными цветами */
+        @keyframes gradientAnimation {
+            0% {
+                background: linear-gradient(45deg, #ff7e5f, #feb47b, #6a11cb, #2575fc);
+            }
+            25% {
+                background: linear-gradient(45deg, #ff9a8b, #ff6a3d, #6a11cb, #2575fc);
+            }
+            50% {
+                background: linear-gradient(45deg, #ff6a3d, #feb47b, #2575fc, #ff7e5f);
+            }
+            75% {
+                background: linear-gradient(45deg, #ff7e5f, #2575fc, #ff9a8b, #6a11cb);
+            }
+            100% {
+                background: linear-gradient(45deg, #ff7e5f, #feb47b, #6a11cb, #2575fc);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to My Start Page</h1>
+    
+    <!-- Квадратное изображение -->
+    <img src="main/images/icon.png" alt="Logo">
+    
+    <div class="links">
+        <a href="https://www.google.com" target="_blank">Google</a>
+        <a href="https://www.github.com" target="_blank">GitHub</a>
+        <a href="https://www.youtube.com" target="_blank">YouTube</a>
+        <a href="https://www.python.org" target="_blank">Python</a>
+    </div>
+
+    <script>
+        document.querySelectorAll('a').forEach(function(link) {
+            link.addEventListener('click', function(event) {
+                // Выводим URL в консоль (для отладки)
+                console.log('Клик по ссылке: ' + this.href);  
+            });
+        });
+    </script>
+</body>
+</html>
