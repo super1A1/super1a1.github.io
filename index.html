@@ -30,6 +30,37 @@
             letter-spacing: 2px; /* Увеличивает расстояние между буквами */
         }
 
+        .search-bar {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .search-bar input[type="text"] {
+            padding: 10px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 5px;
+            margin-right: 10px;
+            width: 300px;
+        }
+
+        .search-bar button {
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-bar button:hover {
+            background-color: #ff4c4c;
+        }
+
         .links {
             display: flex;
             justify-content: center;
@@ -49,12 +80,11 @@
             border-radius: 5px;
             transition: all 0.3s ease;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            transform-origin: center; /* Центрирование анимации */
         }
 
         .links a:hover {
             background-color: #ff4c4c;
-            transform: translateY(-5px) scale(1.1); /* Эффект масштабирования */
+            transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
         }
 
@@ -93,30 +123,21 @@
                 background: linear-gradient(45deg, #ff7e5f, #feb47b, #6a11cb, #2575fc);
             }
         }
-
-        /* Стили для мобильных устройств */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-
-            .links a {
-                font-size: 1rem;
-                padding: 10px 20px;
-            }
-
-            img {
-                width: 200px;
-                height: 200px;
-            }
-        }
     </style>
 </head>
 <body>
     <h1>Welcome to My Start Page</h1>
+
+    <!-- Поисковая строка Google -->
+    <div class="search-bar">
+        <form action="https://www.google.com/search" method="get" target="_blank">
+            <input type="text" name="q" placeholder="Search on Google...">
+            <button type="submit">Search</button>
+        </form>
+    </div>
     
     <!-- Квадратное изображение -->
-    <img src="/main/images/icon.png" alt="Logo">
+    <img src="main/images/icon.png" alt="Logo">
     
     <div class="links">
         <a href="https://www.google.com" target="_blank">Google</a>
