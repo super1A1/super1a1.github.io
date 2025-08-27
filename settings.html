@@ -4,9 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Settings</title>
+<!-- Фавикон -->
+<link rel="icon" type="image/png" href="images/favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* { margin:0; padding:0; box-sizing: border-box; }
+
 body {
     font-family: 'Poppins', sans-serif;
     min-height: 100vh;
@@ -71,7 +74,6 @@ h1 {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Мобильная адаптация */
 @media(max-width:500px){
     h1 { font-size: 2rem; margin-bottom: 30px; }
     .setting-option { font-size: 1rem; padding: 15px 20px; }
@@ -84,21 +86,21 @@ h1 {
 
 <div class="setting-container">
     <div class="setting-option" onclick="toggleTheme()">Toggle Dark Theme</div>
-    <div class="setting-option" onclick="showAlert('Option 1')">Other Setting 1</div>
-    <div class="setting-option" onclick="showAlert('Option 2')">Other Setting 2</div>
-    <div class="setting-option" onclick="goToMain()">Go to Main Site</div>
+    <div class="setting-option" onclick="notify('Option 1')">Other Setting 1</div>
+    <div class="setting-option" onclick="notify('Option 2')">Other Setting 2</div>
+    <div class="setting-option" onclick="goHome()">Go to Main Site</div>
 </div>
 
 <script>
-function toggleTheme(){
+function toggleTheme() {
     document.body.classList.toggle('dark-theme');
 }
 
-function showAlert(msg){
-    alert(`You clicked: ${msg}`);
+function notify(option) {
+    alert(`You clicked: ${option}`);
 }
 
-function goToMain(){
+function goHome() {
     window.location.href = 'https://super1a1.github.io/mywebsite/';
 }
 </script>
