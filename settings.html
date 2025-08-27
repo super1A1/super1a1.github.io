@@ -4,67 +4,64 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Settings</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #ff7e5f, #feb47b);
-    color: #333;
     min-height: 100vh;
-    padding: 40px 20px;
-    transition: background 0.5s, color 0.5s;
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-h1 {
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 2.5rem;
+    justify-content: flex-start;
+    padding: 50px 20px;
+    background: linear-gradient(135deg, #ff7e5f, #feb47b);
     color: #fff;
-    text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+    transition: background 0.5s, color 0.5s;
 }
-.setting-option {
-    width: 250px;
-    margin: 15px 0;
-    padding: 15px;
-    background: rgba(255,255,255,0.2);
-    color: white;
-    border-radius: 12px;
-    cursor: pointer;
+
+body.dark-theme {
+    background: linear-gradient(135deg, #1f1f1f, #444);
+    color: #fff;
+}
+
+h1 {
+    font-size: 2.8rem;
+    margin-bottom: 40px;
     text-align: center;
-    font-weight: 600;
-    font-size: 1.1rem;
-    transition: all 0.3s ease;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-    backdrop-filter: blur(5px);
+    text-shadow: 2px 2px 15px rgba(0,0,0,0.3);
 }
+
+.setting-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.setting-option {
+    padding: 18px 25px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 12px;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s forwards;
+}
+
 .setting-option:hover {
     background: rgba(255,255,255,0.35);
     transform: translateY(-5px) scale(1.05);
     box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
 
-/* Темная тема */
-body.dark-theme {
-    background: linear-gradient(135deg, #333, #555);
-    color: #fff;
-}
-body.dark-theme .setting-option {
-    background: rgba(255,255,255,0.1);
-    color: #fff;
-}
-body.dark-theme .setting-option:hover {
-    background: rgba(255,255,255,0.25);
-}
-
-/* Анимация появления */
-.setting-option {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.6s forwards;
-}
 .setting-option:nth-child(1) { animation-delay: 0.2s; }
 .setting-option:nth-child(2) { animation-delay: 0.4s; }
 .setting-option:nth-child(3) { animation-delay: 0.6s; }
@@ -75,9 +72,9 @@ body.dark-theme .setting-option:hover {
 }
 
 /* Мобильная адаптация */
-@media (max-width: 500px) {
-    .setting-option { width: 90%; font-size: 1rem; padding: 12px; }
-    h1 { font-size: 2rem; }
+@media(max-width:500px){
+    h1 { font-size: 2rem; margin-bottom: 30px; }
+    .setting-option { font-size: 1rem; padding: 15px 20px; }
 }
 </style>
 </head>
@@ -85,17 +82,23 @@ body.dark-theme .setting-option:hover {
 
 <h1>Settings</h1>
 
-<div class="setting-option" onclick="changeTheme()">Toggle Dark Theme</div>
-<div class="setting-option">Other setting 1</div>
-<div class="setting-option">Other setting 2</div>
-<div class="setting-option" onclick="goToMainSite()">Go to Main Site</div>
+<div class="setting-container">
+    <div class="setting-option" onclick="toggleTheme()">Toggle Dark Theme</div>
+    <div class="setting-option" onclick="showAlert('Option 1')">Other Setting 1</div>
+    <div class="setting-option" onclick="showAlert('Option 2')">Other Setting 2</div>
+    <div class="setting-option" onclick="goToMain()">Go to Main Site</div>
+</div>
 
 <script>
-function changeTheme() {
+function toggleTheme(){
     document.body.classList.toggle('dark-theme');
 }
 
-function goToMainSite() {
+function showAlert(msg){
+    alert(`You clicked: ${msg}`);
+}
+
+function goToMain(){
     window.location.href = 'https://super1a1.github.io/mywebsite/';
 }
 </script>
