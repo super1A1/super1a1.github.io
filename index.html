@@ -17,10 +17,15 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* GIF фон по умолчанию */
     background: url("images/background.gif") no-repeat center center fixed;
     background-size: cover;
     position: relative;
+    transition: background 0.5s, color 0.5s;
+}
+
+body.dark {
+    background: linear-gradient(135deg, #1a1a1a, #333);
+    color: white;
 }
 
 h1 {
@@ -34,7 +39,7 @@ h1 {
     z-index: 2;
 }
 
-/* --- Новый дизайн поиска --- */
+/* --- Search Bar --- */
 .search-bar {
     width: 100%;
     max-width: 500px;
@@ -55,8 +60,17 @@ h1 {
     transition: all 0.3s ease;
 }
 
+body.dark .search-bar form {
+    background: rgba(0,0,0,0.4);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
 .search-bar form:hover {
     background: rgba(255, 255, 255, 0.25);
+}
+
+body.dark .search-bar form:hover {
+    background: rgba(0,0,0,0.6);
 }
 
 .search-bar input {
@@ -65,30 +79,33 @@ h1 {
     border: none;
     background: transparent;
     font-size: 16px;
-    color: white;
+    color: inherit;
     outline: none;
     transition: width 0.3s ease;
 }
 
 .search-bar input::placeholder { color: rgba(255, 255, 255, 0.7); }
+body.dark .search-bar input::placeholder { color: rgba(255,255,255,0.6); }
+
 .search-bar input:focus { width: 100%; }
 
 .search-bar button {
-    background: #ffffff33;
+    background: rgba(255,255,255,0.2);
     border: none;
     border-radius: 50%;
     padding: 10px;
     cursor: pointer;
     font-size: 18px;
     transition: 0.3s;
-    color: white;
+    color: inherit;
 }
 
-.search-bar button:hover {
-    background: #ffffff55;
-    transform: scale(1.1);
-}
+body.dark .search-bar button { background: rgba(255,255,255,0.1); color: white; }
 
+.search-bar button:hover { background: rgba(255,255,255,0.4); transform: scale(1.1); }
+body.dark .search-bar button:hover { background: rgba(255,255,255,0.3); }
+
+/* --- Logo --- */
 .logo {
     position: absolute;
     top: 20px;
@@ -107,7 +124,7 @@ h1 {
     box-shadow: 0 10px 25px rgba(0,0,0,0.5);
 }
 
-/* --- Стеклянные кнопки --- */
+/* --- Glass Buttons --- */
 .links {
     display: flex;
     flex-wrap: wrap;
@@ -124,7 +141,7 @@ h1 {
     font-size: 1.2rem;
     text-decoration: none;
     color: white;
-    background: rgba(255, 255, 255, 0.15);  /* стекло */
+    background: rgba(255, 255, 255, 0.15);
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.25);
     backdrop-filter: blur(8px);
@@ -132,10 +149,21 @@ h1 {
     transition: all 0.3s ease;
 }
 
+body.dark .links a {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white;
+}
+
 .links a:hover {
     background: rgba(255,255,255,0.25);
     transform: translateY(-5px) scale(1.08);
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+body.dark .links a:hover {
+    background: rgba(255,255,255,0.2);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.7);
 }
 
 @keyframes fadeIn { to { opacity: 1; } }
@@ -172,12 +200,6 @@ h1 {
 </div>
 
 <script>
-// Логирование кликов
-document.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => console.log('Clicked: ' + link.href));
-});
-
-// Работа с куки
 function getCookie(name) {
     const cname = name + "=";
     const decodedCookie = decodeURIComponent(document.cookie);
@@ -190,29 +212,26 @@ function getCookie(name) {
 }
 
 function applyTheme(theme) {
-    const body = document.body;
+    document.body.classList.remove('dark');
     switch(theme) {
-        case 'light':
-            body.style.background = 'linear-gradient(135deg, #ffffff, #e0e0e0)';
-            body.style.color = '#111';
+        case 'dark': document.body.classList.add('dark'); break;
+        case 'light': 
+            document.body.style.background = 'linear-gradient(135deg, #ffffff, #e0e0e0)';
+            document.body.style.color = '#111';
             break;
-        case 'dark':
-            body.style.background = 'linear-gradient(135deg, #1a1a1a, #333)';
-            body.style.color = 'white';
-            break;
-        case 'gif':
-            body.style.background = 'url("images/background.gif") no-repeat center center fixed';
-            body.style.backgroundSize = 'cover';
-            body.style.color = 'white';
+        case 'gif': 
+            document.body.style.background = 'url("images/background.gif") no-repeat center center fixed';
+            document.body.style.backgroundSize = 'cover';
+            document.body.style.color = 'white';
             break;
     }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Применяем тему из куки, если есть
     const savedTheme = getCookie('theme');
     if(savedTheme) applyTheme(savedTheme);
 });
 </script>
+
 </body>
 </html>
