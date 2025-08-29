@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Settings</title>
-<!-- Фавикон -->
 <link rel="icon" type="image/x-icon" href="images/favicon.ico">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
@@ -26,6 +25,17 @@ body {
 body.dark-theme {
     background: linear-gradient(135deg, #1f1f1f, #444);
     color: #fff;
+}
+
+body.light-theme {
+    background: linear-gradient(135deg, #ffffff, #e0e0e0);
+    color: #111;
+}
+
+body.gif-theme {
+    background: url("images/background.gif") no-repeat center center fixed;
+    background-size: cover;
+    color: white;
 }
 
 h1 {
@@ -85,24 +95,57 @@ h1 {
 <h1>Settings</h1>
 
 <div class="setting-container">
-    <div class="setting-option" onclick="toggleTheme()">Toggle Dark Theme</div>
-    <div class="setting-option" onclick="notify('Option 1')">Other Setting 1</div>
-    <div class="setting-option" onclick="notify('Option 2')">Other Setting 2</div>
-    <div class="setting-option" onclick="goHome()">Go to Main Site</div>
+    <div class="setting-option" onclick="setTheme('light')">Light Theme</div>
+    <div class="setting-option" onclick="setTheme('dark')">Dark Theme</div>
+    <div class="setting-option" onclick="setTheme('gif')">GIF Background</div>
+    <div class="setting-option" onclick="goHome()">Go to Main Page</div>
 </div>
 
 <script>
-function toggleTheme() {
-    document.body.classList.toggle('dark-theme');
+// Cookie functions
+function setCookie(name, value, days) {
+    const d = new Date();
+    d.setTime(d.getTime() + (days*24*60*60*1000));
+    document.cookie = name + "=" + encodeURIComponent(value) + ";" + "expires="+ d.toUTCString() + ";path=/";
 }
 
-function notify(option) {
-    alert(`You clicked: ${option}`);
+function getCookie(name) {
+    const cname = name + "=";
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const ca = decodedCookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+        let c = ca[i].trim();
+        if (c.indexOf(cname) === 0) return c.substring(cname.length, c.length);
+    }
+    return "";
 }
 
+// Apply theme
+function applyTheme(theme) {
+    document.body.classList.remove('light-theme', 'dark-theme', 'gif-theme');
+    switch(theme) {
+        case 'light': document.body.classList.add('light-theme'); break;
+        case 'dark': document.body.classList.add('dark-theme'); break;
+        case 'gif': document.body.classList.add('gif-theme'); break;
+    }
+}
+
+// Set theme and save in cookie
+function setTheme(theme) {
+    applyTheme(theme);
+    setCookie('theme', theme, 30);
+}
+
+// Go to main page
 function goHome() {
-    window.location.href = 'https://super1a1.github.io/mywebsite/';
+    window.location.href = 'index.html';
 }
+
+// Apply saved theme on page load
+document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = getCookie('theme');
+    if(savedTheme) applyTheme(savedTheme);
+});
 </script>
 
 </body>
