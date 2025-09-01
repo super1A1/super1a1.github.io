@@ -105,7 +105,7 @@ body.dark .search-bar button { background: rgba(255,255,255,0.1); color: white; 
 .search-bar button:hover { background: rgba(255,255,255,0.4); transform: scale(1.1); }
 body.dark .search-bar button:hover { background: rgba(255,255,255,0.3); }
 
-/* --- Logo --- */
+/* --- User Avatar --- */
 .logo {
     position: absolute;
     top: 20px;
@@ -189,7 +189,7 @@ body.dark .links a:hover {
 </div>
 
 <a href="settings.html">
-    <img class="logo" src="images/placeholder.png" alt="Logo">
+    <img class="logo" src="images/placeholder.png" alt="User Avatar">
 </a>
 
 <div class="links">
@@ -234,7 +234,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const savedTheme = getCookie('theme');
     if(savedTheme) applyTheme(savedTheme);
 
-    const savedAvatar = getCookie('userAvatar');
+    // Загружаем фото из куки
+    const savedAvatar = getCookie('avatar');
     if(savedAvatar) {
         document.querySelector('.logo').src = savedAvatar;
     }
