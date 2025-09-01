@@ -117,6 +117,7 @@ body.dark .search-bar button:hover { background: rgba(255,255,255,0.3); }
     box-shadow: 0 6px 20px rgba(0,0,0,0.3);
     transition: all 0.3s ease;
     z-index: 2;
+    object-fit: cover;
 }
 
 .logo:hover {
@@ -214,7 +215,9 @@ function getCookie(name) {
 function applyTheme(theme) {
     document.body.classList.remove('dark');
     switch(theme) {
-        case 'dark': document.body.classList.add('dark'); break;
+        case 'dark': 
+            document.body.classList.add('dark'); 
+            break;
         case 'light': 
             document.body.style.background = 'linear-gradient(135deg, #ffffff, #e0e0e0)';
             document.body.style.color = '#111';
@@ -230,6 +233,11 @@ function applyTheme(theme) {
 document.addEventListener('DOMContentLoaded', () => {
     const savedTheme = getCookie('theme');
     if(savedTheme) applyTheme(savedTheme);
+
+    const savedAvatar = getCookie('userAvatar');
+    if(savedAvatar) {
+        document.querySelector('.logo').src = savedAvatar;
+    }
 });
 </script>
 
