@@ -79,14 +79,20 @@ h1 {
 .setting-option:nth-child(2) { animation-delay: 0.4s; }
 .setting-option:nth-child(3) { animation-delay: 0.6s; }
 .setting-option:nth-child(4) { animation-delay: 0.8s; }
+.setting-option:nth-child(5) { animation-delay: 1s; }
 
 @keyframes fadeInUp {
     to { opacity: 1; transform: translateY(0); }
 }
 
-@media(max-width:500px){
-    h1 { font-size: 2rem; margin-bottom: 30px; }
-    .setting-option { font-size: 1rem; padding: 15px 20px; }
+.avatar {
+    margin: 20px 0;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    display: none;
 }
 </style>
 </head>
@@ -94,12 +100,19 @@ h1 {
 
 <h1>Settings</h1>
 
+<!-- Аватар пользователя -->
+<img id="avatar" class="avatar" alt="User Avatar">
+
 <div class="setting-container">
     <div class="setting-option" onclick="setTheme('light')">Light Theme</div>
     <div class="setting-option" onclick="setTheme('dark')">Dark Theme</div>
     <div class="setting-option" onclick="setTheme('gif')">GIF Background</div>
+    <div class="setting-option" onclick="document.getElementById('fileInput').click()">Upload Avatar</div>
     <div class="setting-option" onclick="goHome()">Go to Main Page</div>
 </div>
+
+<!-- Скрытый input для загрузки фото -->
+<input type="file" id="fileInput" accept="image/*" style="display:none" onchange="saveAvatar(event)">
 
 <script>
 // Cookie functions
@@ -136,15 +149,39 @@ function setTheme(theme) {
     setCookie('theme', theme, 30);
 }
 
+// Save avatar in cookie
+function saveAvatar(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const base64 = e.target.result;
+        setCookie("avatar", base64, 30);
+        loadAvatar();
+    }
+    reader.readAsDataURL(file);
+}
+
+// Load avatar from cookie
+function loadAvatar() {
+    const avatarData = getCookie("avatar");
+    if (avatarData) {
+        const avatar = document.getElementById("avatar");
+        avatar.src = avatarData;
+        avatar.style.display = "block";
+    }
+}
+
 // Go to main page
 function goHome() {
     window.location.href = 'index.html';
 }
 
-// Apply saved theme on page load
+// Apply saved settings on load
 document.addEventListener('DOMContentLoaded', () => {
     const savedTheme = getCookie('theme');
     if(savedTheme) applyTheme(savedTheme);
+    loadAvatar();
 });
 </script>
 
