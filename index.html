@@ -3,190 +3,131 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Start Page</title>
+<title>Settings</title>
 <link rel="icon" type="image/x-icon" href="images/favicon.ico">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* { margin:0; padding:0; box-sizing: border-box; }
+
 body {
     font-family: 'Poppins', sans-serif;
     min-height: 100vh;
-    color: white;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    position: relative;
-    transition: background 1s, color 0.5s;
-    overflow-x: hidden;
+    justify-content: flex-start;
+    padding: 50px 20px;
+    background: linear-gradient(135deg, #ff7e5f, #feb47b);
+    color: #fff;
+    transition: background 0.5s, color 0.5s;
 }
 
-/* --- Темы --- */
-body.dark {
-    background: linear-gradient(135deg, #1a1a1a, #333);
-    color: white;
+body.dark-theme {
+    background: linear-gradient(135deg, #1f1f1f, #444);
+    color: #fff;
 }
-body.light {
+
+body.light-theme {
     background: linear-gradient(135deg, #ffffff, #e0e0e0);
     color: #111;
 }
 
-/* --- Заголовок --- */
+body.gif-theme {
+    background: url("images/background.gif") no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+}
+
+body.gradient-theme {
+    color: white;
+}
+
 h1 {
-    font-size: 4rem;
+    font-size: 2.8rem;
+    margin-bottom: 40px;
     text-align: center;
-    margin-bottom: 25px;
-    letter-spacing: 3px;
-    text-shadow: 2px 2px 20px rgba(0,0,0,0.6);
-    animation: fadeIn 2s ease forwards;
-    opacity: 0;
-    z-index: 2;
+    text-shadow: 2px 2px 15px rgba(0,0,0,0.3);
 }
 
-/* --- Search Bar --- */
-.search-bar {
+.setting-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
     width: 100%;
-    max-width: 500px;
-    margin: 20px auto;
-    animation: fadeIn 2s 0.5s ease forwards;
-    opacity: 0;
-    z-index: 2;
+    max-width: 400px;
 }
-.search-bar form {
-    display: flex;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 50px;
-    padding: 8px 15px;
-    backdrop-filter: blur(6px);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    transition: all 0.3s ease;
-}
-body.dark .search-bar form { background: rgba(0,0,0,0.4); box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-body.light .search-bar form { background: rgba(255,255,255,0.8); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-.search-bar form:hover { background: rgba(255, 255, 255, 0.25); }
-body.dark .search-bar form:hover { background: rgba(0,0,0,0.6); }
-body.light .search-bar form:hover { background: rgba(255,255,255,0.9); }
 
-.search-bar input {
-    flex: 1;
-    padding: 10px 15px;
-    border: none;
-    background: transparent;
-    font-size: 16px;
-    color: inherit;
-    outline: none;
-    transition: width 0.3s ease;
-}
-.search-bar input::placeholder { color: rgba(255, 255, 255, 0.7); }
-body.light .search-bar input::placeholder { color: rgba(0,0,0,0.5); }
-
-.search-bar button {
+.setting-option {
+    padding: 18px 25px;
     background: rgba(255,255,255,0.2);
-    border: none;
-    border-radius: 50%;
-    padding: 10px;
-    cursor: pointer;
-    font-size: 18px;
-    transition: 0.3s;
-    color: inherit;
-}
-body.dark .search-bar button { background: rgba(255,255,255,0.1); color: white; }
-body.light .search-bar button { background: rgba(0,0,0,0.1); color: #111; }
-.search-bar button:hover { transform: scale(1.1); }
-body.dark .search-bar button:hover { background: rgba(255,255,255,0.3); }
-body.light .search-bar button:hover { background: rgba(0,0,0,0.2); }
-
-/* --- User Avatar --- */
-.logo {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 80px;
-    height: 80px;
-    border-radius: 15px;
-    border: 4px solid rgba(255,255,255,0.8);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-    transition: all 0.3s ease;
-    z-index: 2;
-    object-fit: cover;
-}
-.logo:hover {
-    transform: scale(1.1);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-}
-
-/* --- Glass Buttons --- */
-.links {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 35px;
-    animation: fadeIn 2s 1s ease forwards;
-    opacity: 0;
-    z-index: 2;
-}
-.links a {
-    margin: 15px;
-    padding: 14px 28px;
-    font-size: 1.2rem;
-    text-decoration: none;
-    color: inherit;
-    background: rgba(255, 255, 255, 0.15);
     border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255,255,255,0.3);
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
     transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s forwards;
 }
-body.dark .links a { background: rgba(0,0,0,0.4); color: white; border: 1px solid rgba(255,255,255,0.2); }
-body.light .links a { background: rgba(255,255,255,0.5); color: #111; border: 1px solid rgba(0,0,0,0.2); }
-.links a:hover { transform: translateY(-5px) scale(1.08); }
-body.dark .links a:hover { background: rgba(255,255,255,0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.7); }
-body.light .links a:hover { background: rgba(255,255,255,0.7); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
 
-/* --- Animations --- */
-@keyframes fadeIn { to { opacity: 1; } }
+.setting-option:hover {
+    background: rgba(255,255,255,0.35);
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
 
-/* --- Адаптив --- */
-@media (max-width: 768px) {
-    h1 { font-size: 2.5rem; margin: 15px; }
-    .links a { font-size: 1rem; padding: 10px 20px; margin: 10px; }
-    .logo { width: 60px; height: 60px; top: 15px; right: 15px; }
-    .links { flex-direction: column; align-items: center; }
-    .search-bar { width: 90%; }
+.setting-option:nth-child(1) { animation-delay: 0.2s; }
+.setting-option:nth-child(2) { animation-delay: 0.4s; }
+.setting-option:nth-child(3) { animation-delay: 0.6s; }
+.setting-option:nth-child(4) { animation-delay: 0.8s; }
+.setting-option:nth-child(5) { animation-delay: 1s; }
+.setting-option:nth-child(6) { animation-delay: 1.2s; } /* Новая кнопка */
+
+@keyframes fadeInUp {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.avatar {
+    margin: 20px 0;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    display: none;
 }
 </style>
 </head>
 <body>
 
-<h1>Welcome to My Start Page</h1>
+<h1>Settings</h1>
 
-<div class="search-bar">
-    <form action="https://www.google.com/search" method="get" target="_blank">
-        <input type="text" name="q" placeholder="Search...">
-        <button type="submit">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85zm-5.242 1.656a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"/>
-            </svg>
-        </button>
-    </form>
+<!-- Аватар пользователя -->
+<img id="avatar" class="avatar" alt="User Avatar">
+
+<div class="setting-container">
+    <div class="setting-option" onclick="setTheme('light')">Light Theme</div>
+    <div class="setting-option" onclick="setTheme('dark')">Dark Theme</div>
+    <div class="setting-option" onclick="setTheme('gif')">GIF Background</div>
+    <div class="setting-option" onclick="setTheme('gradient')">Gradient Theme</div>
+    <div class="setting-option" onclick="document.getElementById('fileInput').click()">Upload Avatar</div>
+    <div class="setting-option" onclick="goHome()">Go to Main Page</div>
 </div>
 
-<a href="settings.html">
-    <img class="logo" src="images/placeholder.png" alt="User Avatar">
-</a>
-
-<div class="links">
-    <a href="https://www.wikipedia.org" target="_blank">Wikipedia</a>
-    <a href="https://archive.org" target="_blank">Internet Archive</a>
-    <a href="https://www.github.com" target="_blank">GitHub</a>
-    <a href="https://www.youtube.com" target="_blank">YouTube</a>
-    <a href="https://www.python.org" target="_blank">Python</a>
-</div>
+<!-- Скрытый input для загрузки фото -->
+<input type="file" id="fileInput" accept="image/*" style="display:none" onchange="saveAvatar(event)">
 
 <script>
-// --- Cookie функция ---
+// Cookie functions
+function setCookie(name, value, days) {
+    const d = new Date();
+    d.setTime(d.getTime() + (days*24*60*60*1000));
+    document.cookie = name + "=" + encodeURIComponent(value) + ";" + "expires="+ d.toUTCString() + ";path=/";
+}
+
 function getCookie(name) {
     const cname = name + "=";
     const decodedCookie = decodeURIComponent(document.cookie);
@@ -198,45 +139,66 @@ function getCookie(name) {
     return "";
 }
 
-// --- Применение темы ---
+// Apply theme
 function applyTheme(theme) {
-    document.body.classList.remove('dark', 'light');
-    if(theme === 'dark') document.body.classList.add('dark');
-    else if(theme === 'light') document.body.classList.add('light');
-    else if(theme === 'gif') {
-        document.body.style.background = 'url("images/background.gif") no-repeat center center fixed';
-        document.body.style.backgroundSize = 'cover';
-        document.body.style.color = 'white';
+    document.body.classList.remove('light-theme', 'dark-theme', 'gif-theme', 'gradient-theme');
+    switch(theme) {
+        case 'light': document.body.classList.add('light-theme'); break;
+        case 'dark': document.body.classList.add('dark-theme'); break;
+        case 'gif': document.body.classList.add('gif-theme'); break;
+        case 'gradient':
+            document.body.classList.add('gradient-theme');
+            const gradients = [
+                'linear-gradient(135deg, #ff7e5f, #feb47b)',
+                'linear-gradient(135deg, #6a11cb, #2575fc)',
+                'linear-gradient(135deg, #ff6a00, #ee0979)',
+                'linear-gradient(135deg, #43cea2, #185a9d)'
+            ];
+            const randomGradient = gradients[Math.floor(Math.random() * gradients.length)];
+            document.body.style.background = randomGradient;
+            break;
     }
 }
 
-// --- Градиентный "рулон" ---
-const gradients = [
-    'linear-gradient(135deg, #ff7e5f, #feb47b)',
-    'linear-gradient(135deg, #6a11cb, #2575fc)',
-    'linear-gradient(135deg, #ff6a00, #ee0979)',
-    'linear-gradient(135deg, #43cea2, #185a9d)'
-];
-
-function startGradientRoll() {
-    let i = 0;
-    setInterval(() => {
-        document.body.style.background = gradients[i];
-        document.body.style.color = 'white';
-        i = (i + 1) % gradients.length;
-    }, 5000); // каждые 5 секунд
+// Set theme and save in cookie
+function setTheme(theme) {
+    applyTheme(theme);
+    setCookie('theme', theme, 30);
 }
 
+// Save avatar in cookie
+function saveAvatar(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const base64 = e.target.result;
+        setCookie("avatar", base64, 30);
+        loadAvatar();
+    }
+    reader.readAsDataURL(file);
+}
+
+// Load avatar from cookie
+function loadAvatar() {
+    const avatarData = getCookie("avatar");
+    if (avatarData) {
+        const avatar = document.getElementById("avatar");
+        avatar.src = avatarData;
+        avatar.style.display = "block";
+    }
+}
+
+// Go to main page
+function goHome() {
+    window.location.href = 'index.html';
+}
+
+// Apply saved settings on load
 document.addEventListener('DOMContentLoaded', () => {
     const savedTheme = getCookie('theme');
-    if(savedTheme === 'dark' || savedTheme === 'light' || savedTheme === 'gif') {
-        applyTheme(savedTheme);
-    } else {
-        startGradientRoll(); // по умолчанию градиентный рулон
-    }
-
-    const savedAvatar = getCookie('avatar');
-    if(savedAvatar) document.querySelector('.logo').src = savedAvatar;
+    if(savedTheme) applyTheme(savedTheme);
+    loadAvatar();
 });
 </script>
 
