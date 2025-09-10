@@ -38,6 +38,10 @@ body.gif-theme {
     color: white;
 }
 
+body.gradient-theme {
+    color: white;
+}
+
 h1 {
     font-size: 2.8rem;
     margin-bottom: 40px;
@@ -80,6 +84,7 @@ h1 {
 .setting-option:nth-child(3) { animation-delay: 0.6s; }
 .setting-option:nth-child(4) { animation-delay: 0.8s; }
 .setting-option:nth-child(5) { animation-delay: 1s; }
+.setting-option:nth-child(6) { animation-delay: 1.2s; } /* Новая кнопка */
 
 @keyframes fadeInUp {
     to { opacity: 1; transform: translateY(0); }
@@ -107,6 +112,7 @@ h1 {
     <div class="setting-option" onclick="setTheme('light')">Light Theme</div>
     <div class="setting-option" onclick="setTheme('dark')">Dark Theme</div>
     <div class="setting-option" onclick="setTheme('gif')">GIF Background</div>
+    <div class="setting-option" onclick="setTheme('gradient')">Gradient Theme</div>
     <div class="setting-option" onclick="document.getElementById('fileInput').click()">Upload Avatar</div>
     <div class="setting-option" onclick="goHome()">Go to Main Page</div>
 </div>
@@ -135,11 +141,22 @@ function getCookie(name) {
 
 // Apply theme
 function applyTheme(theme) {
-    document.body.classList.remove('light-theme', 'dark-theme', 'gif-theme');
+    document.body.classList.remove('light-theme', 'dark-theme', 'gif-theme', 'gradient-theme');
     switch(theme) {
         case 'light': document.body.classList.add('light-theme'); break;
         case 'dark': document.body.classList.add('dark-theme'); break;
         case 'gif': document.body.classList.add('gif-theme'); break;
+        case 'gradient':
+            document.body.classList.add('gradient-theme');
+            const gradients = [
+                'linear-gradient(135deg, #ff7e5f, #feb47b)',
+                'linear-gradient(135deg, #6a11cb, #2575fc)',
+                'linear-gradient(135deg, #ff6a00, #ee0979)',
+                'linear-gradient(135deg, #43cea2, #185a9d)'
+            ];
+            const randomGradient = gradients[Math.floor(Math.random() * gradients.length)];
+            document.body.style.background = randomGradient;
+            break;
     }
 }
 
