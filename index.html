@@ -10,8 +10,7 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
     font-family: 'Poppins', sans-serif;
-    height: 100vh;
-    overflow: hidden;
+    min-height: 100vh;
     color: white;
     display: flex;
     flex-direction: column;
@@ -21,13 +20,21 @@ body {
     background-size: cover;
     position: relative;
     transition: background 0.5s, color 0.5s;
+    overflow-x: hidden;
 }
 
+/* --- Темы --- */
 body.dark {
     background: linear-gradient(135deg, #1a1a1a, #333);
     color: white;
 }
 
+body.light {
+    background: linear-gradient(135deg, #ffffff, #e0e0e0);
+    color: #111;
+}
+
+/* --- Заголовок --- */
 h1 {
     font-size: 4rem;
     text-align: center;
@@ -65,13 +72,17 @@ body.dark .search-bar form {
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
 }
 
+body.light .search-bar form {
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
 .search-bar form:hover {
     background: rgba(255, 255, 255, 0.25);
 }
 
-body.dark .search-bar form:hover {
-    background: rgba(0,0,0,0.6);
-}
+body.dark .search-bar form:hover { background: rgba(0,0,0,0.6); }
+body.light .search-bar form:hover { background: rgba(255,255,255,0.9); }
 
 .search-bar input {
     flex: 1;
@@ -85,9 +96,7 @@ body.dark .search-bar form:hover {
 }
 
 .search-bar input::placeholder { color: rgba(255, 255, 255, 0.7); }
-body.dark .search-bar input::placeholder { color: rgba(255,255,255,0.6); }
-
-.search-bar input:focus { width: 100%; }
+body.light .search-bar input::placeholder { color: rgba(0,0,0,0.5); }
 
 .search-bar button {
     background: rgba(255,255,255,0.2);
@@ -101,9 +110,11 @@ body.dark .search-bar input::placeholder { color: rgba(255,255,255,0.6); }
 }
 
 body.dark .search-bar button { background: rgba(255,255,255,0.1); color: white; }
+body.light .search-bar button { background: rgba(0,0,0,0.1); color: #111; }
 
-.search-bar button:hover { background: rgba(255,255,255,0.4); transform: scale(1.1); }
+.search-bar button:hover { transform: scale(1.1); }
 body.dark .search-bar button:hover { background: rgba(255,255,255,0.3); }
+body.light .search-bar button:hover { background: rgba(0,0,0,0.2); }
 
 /* --- User Avatar --- */
 .logo {
@@ -141,7 +152,7 @@ body.dark .search-bar button:hover { background: rgba(255,255,255,0.3); }
     padding: 14px 28px;
     font-size: 1.2rem;
     text-decoration: none;
-    color: white;
+    color: inherit;
     background: rgba(255, 255, 255, 0.15);
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.25);
@@ -150,30 +161,23 @@ body.dark .search-bar button:hover { background: rgba(255,255,255,0.3); }
     transition: all 0.3s ease;
 }
 
-body.dark .links a {
-    background: rgba(0,0,0,0.4);
-    border: 1px solid rgba(255,255,255,0.2);
-    color: white;
-}
+body.dark .links a { background: rgba(0,0,0,0.4); color: white; border: 1px solid rgba(255,255,255,0.2); }
+body.light .links a { background: rgba(255,255,255,0.5); color: #111; border: 1px solid rgba(0,0,0,0.2); }
 
-.links a:hover {
-    background: rgba(255,255,255,0.25);
-    transform: translateY(-5px) scale(1.08);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-}
+.links a:hover { transform: translateY(-5px) scale(1.08); }
+body.dark .links a:hover { background: rgba(255,255,255,0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.7); }
+body.light .links a:hover { background: rgba(255,255,255,0.7); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
 
-body.dark .links a:hover {
-    background: rgba(255,255,255,0.2);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.7);
-}
-
+/* --- Animations --- */
 @keyframes fadeIn { to { opacity: 1; } }
 
+/* --- Адаптив --- */
 @media (max-width: 768px) {
-    h1 { font-size: 2.5rem; }
-    .links a { font-size: 1rem; padding: 10px 20px; }
-    .logo { width: 70px; height: 70px; }
-    .links { flex-direction: column; }
+    h1 { font-size: 2.5rem; margin: 15px; }
+    .links a { font-size: 1rem; padding: 10px 20px; margin: 10px; }
+    .logo { width: 60px; height: 60px; top: 15px; right: 15px; }
+    .links { flex-direction: column; align-items: center; }
+    .search-bar { width: 90%; }
 }
 </style>
 </head>
@@ -213,16 +217,13 @@ function getCookie(name) {
 }
 
 function applyTheme(theme) {
-    document.body.classList.remove('dark');
+    document.body.classList.remove('dark', 'light');
+    document.body.style.background = '';
+    document.body.style.color = '';
     switch(theme) {
-        case 'dark': 
-            document.body.classList.add('dark'); 
-            break;
-        case 'light': 
-            document.body.style.background = 'linear-gradient(135deg, #ffffff, #e0e0e0)';
-            document.body.style.color = '#111';
-            break;
-        case 'gif': 
+        case 'dark': document.body.classList.add('dark'); break;
+        case 'light': document.body.classList.add('light'); break;
+        case 'gif':
             document.body.style.background = 'url("images/background.gif") no-repeat center center fixed';
             document.body.style.backgroundSize = 'cover';
             document.body.style.color = 'white';
@@ -234,11 +235,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const savedTheme = getCookie('theme');
     if(savedTheme) applyTheme(savedTheme);
 
-    // Загружаем фото из куки
     const savedAvatar = getCookie('avatar');
-    if(savedAvatar) {
-        document.querySelector('.logo').src = savedAvatar;
-    }
+    if(savedAvatar) document.querySelector('.logo').src = savedAvatar;
 });
 </script>
 
