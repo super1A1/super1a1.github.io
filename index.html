@@ -28,7 +28,6 @@ body.dark {
     background: linear-gradient(135deg, #1a1a1a, #333);
     color: white;
 }
-
 body.light {
     background: linear-gradient(135deg, #ffffff, #e0e0e0);
     color: #111;
@@ -55,7 +54,6 @@ h1 {
     opacity: 0;
     z-index: 2;
 }
-
 .search-bar form {
     display: flex;
     align-items: center;
@@ -66,21 +64,10 @@ h1 {
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     transition: all 0.3s ease;
 }
+body.dark .search-bar form { background: rgba(0,0,0,0.4); box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+body.light .search-bar form { background: rgba(255,255,255,0.8); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
 
-body.dark .search-bar form {
-    background: rgba(0,0,0,0.4);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-}
-
-body.light .search-bar form {
-    background: rgba(255,255,255,0.8);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-}
-
-.search-bar form:hover {
-    background: rgba(255, 255, 255, 0.25);
-}
-
+.search-bar form:hover { background: rgba(255, 255, 255, 0.25); }
 body.dark .search-bar form:hover { background: rgba(0,0,0,0.6); }
 body.light .search-bar form:hover { background: rgba(255,255,255,0.9); }
 
@@ -94,7 +81,6 @@ body.light .search-bar form:hover { background: rgba(255,255,255,0.9); }
     outline: none;
     transition: width 0.3s ease;
 }
-
 .search-bar input::placeholder { color: rgba(255, 255, 255, 0.7); }
 body.light .search-bar input::placeholder { color: rgba(0,0,0,0.5); }
 
@@ -108,10 +94,8 @@ body.light .search-bar input::placeholder { color: rgba(0,0,0,0.5); }
     transition: 0.3s;
     color: inherit;
 }
-
 body.dark .search-bar button { background: rgba(255,255,255,0.1); color: white; }
 body.light .search-bar button { background: rgba(0,0,0,0.1); color: #111; }
-
 .search-bar button:hover { transform: scale(1.1); }
 body.dark .search-bar button:hover { background: rgba(255,255,255,0.3); }
 body.light .search-bar button:hover { background: rgba(0,0,0,0.2); }
@@ -130,7 +114,6 @@ body.light .search-bar button:hover { background: rgba(0,0,0,0.2); }
     z-index: 2;
     object-fit: cover;
 }
-
 .logo:hover {
     transform: scale(1.1);
     box-shadow: 0 10px 25px rgba(0,0,0,0.5);
@@ -146,7 +129,6 @@ body.light .search-bar button:hover { background: rgba(0,0,0,0.2); }
     opacity: 0;
     z-index: 2;
 }
-
 .links a {
     margin: 15px;
     padding: 14px 28px;
@@ -160,10 +142,8 @@ body.light .search-bar button:hover { background: rgba(0,0,0,0.2); }
     border: 1px solid rgba(255,255,255,0.3);
     transition: all 0.3s ease;
 }
-
 body.dark .links a { background: rgba(0,0,0,0.4); color: white; border: 1px solid rgba(255,255,255,0.2); }
 body.light .links a { background: rgba(255,255,255,0.5); color: #111; border: 1px solid rgba(0,0,0,0.2); }
-
 .links a:hover { transform: translateY(-5px) scale(1.08); }
 body.dark .links a:hover { background: rgba(255,255,255,0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.7); }
 body.light .links a:hover { background: rgba(255,255,255,0.7); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
@@ -210,6 +190,7 @@ body.light .links a:hover { background: rgba(255,255,255,0.7); box-shadow: 0 10p
 </div>
 
 <script>
+// --- Cookie функция ---
 function getCookie(name) {
     const cname = name + "=";
     const decodedCookie = decodeURIComponent(document.cookie);
@@ -221,6 +202,7 @@ function getCookie(name) {
     return "";
 }
 
+// --- Применение темы ---
 function applyTheme(theme) {
     document.body.classList.remove('dark', 'light');
     document.body.style.background = '';
@@ -233,12 +215,24 @@ function applyTheme(theme) {
             document.body.style.backgroundSize = 'cover';
             document.body.style.color = 'white';
             break;
+        case 'gradient':
+            const gradients = [
+                'linear-gradient(135deg, #ff7e5f, #feb47b)',
+                'linear-gradient(135deg, #6a11cb, #2575fc)',
+                'linear-gradient(135deg, #ff6a00, #ee0979)',
+                'linear-gradient(135deg, #43cea2, #185a9d)'
+            ];
+            const randomGradient = gradients[Math.floor(Math.random() * gradients.length)];
+            document.body.style.background = randomGradient;
+            document.body.style.color = 'white';
+            break;
     }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     const savedTheme = getCookie('theme');
     if(savedTheme) applyTheme(savedTheme);
+    else applyTheme('gradient'); // по умолчанию градиент
 
     const savedAvatar = getCookie('avatar');
     if(savedAvatar) document.querySelector('.logo').src = savedAvatar;
