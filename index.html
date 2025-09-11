@@ -8,7 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-
 body {
     font-family: 'Poppins', sans-serif;
     min-height: 100vh;
@@ -20,11 +19,8 @@ body {
     position: relative;
     overflow-x: hidden;
 }
-
 /* --- Градиентный рулон --- */
-body.gradient-roll {
-    position: relative;
-}
+body.gradient-roll { position: relative; }
 body.gradient-roll::before {
     content: "";
     position: fixed;
@@ -33,11 +29,9 @@ body.gradient-roll::before {
     background: linear-gradient(135deg, #ff7e5f, #feb47b);
     transition: background 3s ease;
 }
-
 /* --- Темы --- */
 body.dark { background: linear-gradient(135deg, #1a1a1a, #333); color: white; }
 body.light { background: linear-gradient(135deg, #ffffff, #e0e0e0); color: #111; }
-
 /* --- Заголовок --- */
 h1 {
     font-size: 4rem;
@@ -49,7 +43,6 @@ h1 {
     opacity: 0;
     z-index: 2;
 }
-
 /* --- Search Bar --- */
 .search-bar {
     width: 100%;
@@ -74,7 +67,6 @@ body.light .search-bar form { background: rgba(255,255,255,0.8); box-shadow: 0 4
 .search-bar form:hover { background: rgba(255,255,255,0.25); }
 body.dark .search-bar form:hover { background: rgba(0,0,0,0.6); }
 body.light .search-bar form:hover { background: rgba(255,255,255,0.9); }
-
 .search-bar input {
     flex: 1;
     padding: 10px 15px;
@@ -87,7 +79,6 @@ body.light .search-bar form:hover { background: rgba(255,255,255,0.9); }
 }
 .search-bar input::placeholder { color: rgba(255, 255, 255, 0.7); }
 body.light .search-bar input::placeholder { color: rgba(0,0,0,0.5); }
-
 .search-bar button {
     background: rgba(255,255,255,0.2);
     border: none;
@@ -103,7 +94,6 @@ body.light .search-bar button { background: rgba(0,0,0,0.1); color: #111; }
 .search-bar button:hover { transform: scale(1.1); }
 body.dark .search-bar button:hover { background: rgba(255,255,255,0.3); }
 body.light .search-bar button:hover { background: rgba(0,0,0,0.2); }
-
 /* --- User Avatar --- */
 .logo {
     position: absolute;
@@ -122,7 +112,6 @@ body.light .search-bar button:hover { background: rgba(0,0,0,0.2); }
     transform: scale(1.1);
     box-shadow: 0 10px 25px rgba(0,0,0,0.5);
 }
-
 /* --- Glass Buttons --- */
 .links {
     display: flex;
@@ -151,10 +140,8 @@ body.light .links a { background: rgba(255,255,255,0.5); color: #111; border: 1p
 .links a:hover { transform: translateY(-5px) scale(1.08); }
 body.dark .links a:hover { background: rgba(255,255,255,0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.7); }
 body.light .links a:hover { background: rgba(255,255,255,0.7); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-
 /* --- Animations --- */
 @keyframes fadeIn { to { opacity: 1; } }
-
 /* --- Адаптив --- */
 @media (max-width: 768px) {
     h1 { font-size: 2.5rem; margin: 15px; }
@@ -193,7 +180,7 @@ body.light .links a:hover { background: rgba(255,255,255,0.7); box-shadow: 0 10p
 </div>
 
 <script>
-// --- Cookie функция ---
+// --- Cookie функции ---
 function getCookie(name) {
     const cname = name + "=";
     const decodedCookie = decodeURIComponent(document.cookie);
@@ -204,10 +191,16 @@ function getCookie(name) {
     }
     return "";
 }
+function setCookie(name, value, days=365) {
+    const d = new Date();
+    d.setTime(d.getTime() + (days*24*60*60*1000));
+    document.cookie = `${name}=${value};path=/;expires=${d.toUTCString()}`;
+}
 
 // --- Применение темы ---
 function applyTheme(theme) {
     document.body.classList.remove('dark', 'light', 'gradient-roll');
+    document.body.style.background = '';
     if(theme === 'dark') document.body.classList.add('dark');
     else if(theme === 'light') document.body.classList.add('light');
     else if(theme === 'gif') {
@@ -225,26 +218,46 @@ const gradients = [
     'linear-gradient(135deg, #ff6a00, #ee0979)',
     'linear-gradient(135deg, #43cea2, #185a9d)'
 ];
-
 function startGradientRoll() {
     document.body.classList.add('gradient-roll');
     let i = 0;
     const bodyBefore = document.body;
     setInterval(() => {
-        bodyBefore.style.background = gradients[i]; // fallback
+        bodyBefore.style.background = gradients[i];
         document.body.style.setProperty('--current-gradient', gradients[i]);
-        bodyBefore.style.background = gradients[i]; // плавный переход через transition
         i = (i + 1) % gradients.length;
     }, 5000);
 }
 
-// --- Загрузка темы и аватара ---
-document.addEventListener('DOMContentLoaded', () => {
-    const savedTheme = getCookie('theme');
-    applyTheme(savedTheme || 'gradient-roll');
+// --- Подгрузка аватара с сервера ---
+async function loadAvatar(userId) {
+    try {
+        const response = await fetch(`/avatars/user_${userId}.png`);
+        if(response.ok) {
+            const url = `/avatars/user_${userId}.png?` + new Date().getTime(); // кэш-бастер
+            document.querySelector('.logo').src = url;
+            setCookie('avatar', url);
+        }
+    } catch(e) {
+        console.warn("Не удалось загрузить аватар:", e);
+    }
+}
 
+// --- Инициализация страницы ---
+document.addEventListener('DOMContentLoaded', () => {
+    // Тема из cookie или URL
+    let theme = getCookie('theme');
+    const params = new URLSearchParams(window.location.search);
+    if(params.has('theme')) theme = params.get('theme');
+    applyTheme(theme || 'gradient-roll');
+
+    // Аватар
     const savedAvatar = getCookie('avatar');
     if(savedAvatar) document.querySelector('.logo').src = savedAvatar;
+
+    // Автообновление аватара
+    const userId = getCookie('user_id');
+    if(userId) setInterval(() => loadAvatar(userId), 60000);
 });
 </script>
 
