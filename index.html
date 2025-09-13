@@ -61,12 +61,6 @@
       .links { flex-direction: column; align-items: center; }
       .search-bar { width: 90%; }
     }
-
-    /* --- Форма логина --- */
-    #login-box { margin-top: 30px; z-index: 2; animation: fadeIn 2s 1.5s ease forwards; opacity: 0; }
-    #login-box input { padding:8px 12px; margin:5px; border:none; border-radius:6px; }
-    #login-box button { padding:8px 16px; border:none; border-radius:6px; background:#fff3; color:inherit; cursor:pointer; }
-    #login-box button:hover { background:#fff5; }
   </style>
 </head>
 <body>
@@ -93,17 +87,8 @@
     <a href="https://www.python.org" target="_blank">Python</a>
   </div>
 
-  <!-- Форма входа -->
-  <div id="login-box">
-    <form id="login-form">
-      <input type="text" id="username" placeholder="Username">
-      <input type="password" id="password" placeholder="Password">
-      <button type="submit">Войти</button>
-    </form>
-  </div>
-
   <script>
-    // --- Cookie функция ---
+    // --- Cookie чтение ---
     function getCookie(name) {
       const cname = name + "=";
       const decodedCookie = decodeURIComponent(document.cookie);
@@ -137,44 +122,31 @@
     function startGradientRoll() {
       document.body.classList.add('gradient-roll');
       let i = 0;
-      const bodyBefore = document.body;
       setInterval(() => {
-        bodyBefore.style.background = gradients[i];
-        document.body.style.setProperty('--current-gradient', gradients[i]);
-        bodyBefore.style.background = gradients[i];
+        document.body.style.background = gradients[i];
         i = (i + 1) % gradients.length;
       }, 5000);
     }
 
-    // --- Загрузка темы и аватара ---
-    document.addEventListener('DOMContentLoaded', () => {
+    // --- Загрузка темы и проверка входа ---
+    document.addEventListener('DOMContentLoaded', async () => {
       const savedTheme = getCookie('theme');
       applyTheme(savedTheme || 'gradient-roll');
-      const savedAvatar = getCookie('avatar');
-      if(savedAvatar) document.querySelector('.logo').src = savedAvatar;
-    });
 
-    // --- Отправка формы логина на сервер ---
-    document.getElementById('login-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
       try {
-        const resp = await fetch('http://127.0.0.1:5000/login', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({username, password})
-        });
-        const data = await resp.json();
-        if (data.success) {
-          document.cookie = "avatar=" + data.avatar_path; // запоминаем
-          document.querySelector('.logo').src = data.avatar_path;
-          alert('Успешный вход!');
-        } else {
-          alert('Неверный логин или пароль');
+        // запрос на сервер для проверки входа (кука сессии уже в браузере)
+        const resp = await fetch('http://127.0.0.1:5000/user', {credentials:'include'});
+        if(resp.ok) {
+          const data = await resp.json();
+          if(data.logged_in) {
+            // подгружаем аватар юзера с сервера
+            document.querySelector('.logo').src = data.avatar_url || 'images/placeholder.png';
+          } else {
+            document.querySelector('.logo').src = 'images/placeholder.png';
+          }
         }
       } catch(err) {
-        alert('Ошибка соединения с сервером');
+        console.error('Ошибка при проверке входа', err);
       }
     });
   </script>
