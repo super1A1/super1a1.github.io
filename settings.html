@@ -22,12 +22,32 @@ body {
     transition: background 0.5s, color 0.5s;
 }
 
-body.dark-theme { background: linear-gradient(135deg, #1f1f1f, #444); color: #fff; }
-body.light-theme { background: linear-gradient(135deg, #ffffff, #e0e0e0); color: #111; }
-body.gif-theme { background: url("images/background.gif") no-repeat center center fixed; background-size: cover; color: white; }
-body.gradient-theme { color: white; }
+body.dark-theme {
+    background: linear-gradient(135deg, #1f1f1f, #444);
+    color: #fff;
+}
 
-h1 { font-size: 2.8rem; margin-bottom: 40px; text-align: center; text-shadow: 2px 2px 15px rgba(0,0,0,0.3); }
+body.light-theme {
+    background: linear-gradient(135deg, #ffffff, #e0e0e0);
+    color: #111;
+}
+
+body.gif-theme {
+    background: url("images/background.gif") no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+}
+
+body.gradient-theme {
+    color: white;
+}
+
+h1 {
+    font-size: 2.8rem;
+    margin-bottom: 40px;
+    text-align: center;
+    text-shadow: 2px 2px 15px rgba(0,0,0,0.3);
+}
 
 .setting-container {
     display: flex;
@@ -64,10 +84,11 @@ h1 { font-size: 2.8rem; margin-bottom: 40px; text-align: center; text-shadow: 2p
 .setting-option:nth-child(3) { animation-delay: 0.6s; }
 .setting-option:nth-child(4) { animation-delay: 0.8s; }
 .setting-option:nth-child(5) { animation-delay: 1s; }
-.setting-option:nth-child(6) { animation-delay: 1.2s; }
-.setting-option:nth-child(7) { animation-delay: 1.4s; }
+.setting-option:nth-child(6) { animation-delay: 1.2s; } /* Новая кнопка */
 
-@keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeInUp {
+    to { opacity: 1; transform: translateY(0); }
+}
 
 .avatar {
     margin: 20px 0;
@@ -78,159 +99,106 @@ h1 { font-size: 2.8rem; margin-bottom: 40px; text-align: center; text-shadow: 2p
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     display: none;
 }
-
-/* Модальное окно входа */
-#loginModal {
-    display:none;
-    position:fixed;
-    top:0; left:0;
-    width:100%; height:100%;
-    background: rgba(0,0,0,0.7);
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-#loginModalContent {
-    background: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    width: 300px;
-    color: #000;
-    display: flex;
-    flex-direction: column;
-}
-#loginModalContent input {
-    margin-bottom: 10px;
-    padding: 8px;
-    width: 100%;
-}
-#loginModalContent button {
-    padding: 10px;
-    width: 100%;
-    margin-top: 5px;
-    cursor: pointer;
-}
 </style>
 </head>
 <body>
 
 <h1>Settings</h1>
 
+<!-- Аватар пользователя -->
 <img id="avatar" class="avatar" alt="User Avatar">
 
 <div class="setting-container">
     <div class="setting-option" onclick="setTheme('light')">Light Theme</div>
     <div class="setting-option" onclick="setTheme('dark')">Dark Theme</div>
     <div class="setting-option" onclick="setTheme('gif')">GIF Background</div>
-    <div class="setting-option" onclick="setTheme('gradient')">Gradient Theme(dev)</div>
+    <div class="setting-option" onclick="setTheme('gradient')">Gradient Theme</div>
     <div class="setting-option" onclick="document.getElementById('fileInput').click()">Upload Avatar</div>
-    <div class="setting-option" id="authBtn" onclick="toggleAuth()">Login</div>
     <div class="setting-option" onclick="goHome()">Go to Main Page</div>
 </div>
 
-<input type="file" id="fileInput" accept="image/*" style="display:none">
-
-<!-- Модальное окно входа -->
-<div id="loginModal">
-    <div id="loginModalContent">
-        <h2>Login</h2>
-        <input type="text" id="loginUsername" placeholder="Username">
-        <input type="password" id="loginPassword" placeholder="Password">
-        <button onclick="submitLogin()">Login</button>
-        <button onclick="closeLoginModal()">Cancel</button>
-    </div>
-</div>
+<!-- Скрытый input для загрузки фото -->
+<input type="file" id="fileInput" accept="image/*" style="display:none" onchange="saveAvatar(event)">
 
 <script>
-// Theme functions
+// Cookie functions
+function setCookie(name, value, days) {
+    const d = new Date();
+    d.setTime(d.getTime() + (days*24*60*60*1000));
+    document.cookie = name + "=" + encodeURIComponent(value) + ";" + "expires="+ d.toUTCString() + ";path=/";
+}
+
+function getCookie(name) {
+    const cname = name + "=";
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const ca = decodedCookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+        let c = ca[i].trim();
+        if (c.indexOf(cname) === 0) return c.substring(cname.length, c.length);
+    }
+    return "";
+}
+
+// Apply theme
 function applyTheme(theme) {
-    document.body.classList.remove('light-theme','dark-theme','gif-theme','gradient-theme');
-    switch(theme){
+    document.body.classList.remove('light-theme', 'dark-theme', 'gif-theme', 'gradient-theme');
+    switch(theme) {
         case 'light': document.body.classList.add('light-theme'); break;
         case 'dark': document.body.classList.add('dark-theme'); break;
         case 'gif': document.body.classList.add('gif-theme'); break;
         case 'gradient':
             document.body.classList.add('gradient-theme');
-            const gradients=['linear-gradient(135deg, #ff7e5f, #feb47b)','linear-gradient(135deg, #6a11cb, #2575fc)','linear-gradient(135deg, #ff6a00, #ee0979)','linear-gradient(135deg, #43cea2, #185a9d)'];
-            document.body.style.background=gradients[Math.floor(Math.random()*gradients.length)];
+            const gradients = [
+                'linear-gradient(135deg, #ff7e5f, #feb47b)',
+                'linear-gradient(135deg, #6a11cb, #2575fc)',
+                'linear-gradient(135deg, #ff6a00, #ee0979)',
+                'linear-gradient(135deg, #43cea2, #185a9d)'
+            ];
+            const randomGradient = gradients[Math.floor(Math.random() * gradients.length)];
+            document.body.style.background = randomGradient;
             break;
     }
 }
-function setTheme(theme){ applyTheme(theme); localStorage.setItem('theme',theme); }
 
-// Navigation
-function goHome(){ window.location.href='index.html'; }
-
-// API helper
-async function api(url, options={}) {
-    options.credentials='include';
-    const res=await fetch(url,options);
-    return res.json();
+// Set theme and save in cookie
+function setTheme(theme) {
+    applyTheme(theme);
+    setCookie('theme', theme, 30);
 }
 
-// Auth & Avatar
-async function updateAuthUI(){
-    const me=await api('/me');
-    const avatar=document.getElementById('avatar');
-    const btn=document.getElementById('authBtn');
-    if(me.logged_in){
-        btn.textContent='Logout';
-        if(me.avatar_url){
-            avatar.src=me.avatar_url;
-            avatar.style.display='block';
-        } else { avatar.style.display='none'; }
-    } else {
-        btn.textContent='Login';
-        avatar.style.display='none';
+// Save avatar in cookie
+function saveAvatar(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const base64 = e.target.result;
+        setCookie("avatar", base64, 30);
+        loadAvatar();
+    }
+    reader.readAsDataURL(file);
+}
+
+// Load avatar from cookie
+function loadAvatar() {
+    const avatarData = getCookie("avatar");
+    if (avatarData) {
+        const avatar = document.getElementById("avatar");
+        avatar.src = avatarData;
+        avatar.style.display = "block";
     }
 }
 
-async function toggleAuth(){
-    const me=await api('/me');
-    if(me.logged_in){
-        await api('/logout',{method:'POST'});
-        updateAuthUI();
-    } else {
-        document.getElementById('loginModal').style.display='flex';
-    }
+// Go to main page
+function goHome() {
+    window.location.href = 'index.html';
 }
 
-async function submitLogin(){
-    const username = document.getElementById('loginUsername').value;
-    const password = document.getElementById('loginPassword').value;
-    if(!username || !password) return alert('Enter username and password!');
-    const res = await api('/login',{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({username,password})
-    });
-    if(res.status==='ok'){
-        closeLoginModal();
-        updateAuthUI();
-    } else alert(res.message||'Login error');
-}
-
-function closeLoginModal(){
-    document.getElementById('loginModal').style.display='none';
-}
-
-// Upload avatar
-document.getElementById('fileInput').addEventListener('change', async e=>{
-    const file=e.target.files[0];
-    if(!file) return;
-    const fd=new FormData();
-    fd.append('avatar',file);
-    const res=await fetch('/upload_avatar',{method:'POST',body:fd,credentials:'include'});
-    const j=await res.json();
-    if(j.status==='ok') updateAuthUI();
-    else alert(j.message);
-});
-
-// On load
-document.addEventListener('DOMContentLoaded',()=>{
-    const savedTheme=localStorage.getItem('theme');
+// Apply saved settings on load
+document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = getCookie('theme');
     if(savedTheme) applyTheme(savedTheme);
-    updateAuthUI();
+    loadAvatar();
 });
 </script>
 
