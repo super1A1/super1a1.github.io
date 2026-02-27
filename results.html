@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Search Results</title>
+<link rel="icon" type="image/x-icon" href="images/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    min-height: 100vh;
+    color: #202124;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    position: relative;
+    transition: background 0.5s, color 0.5s;
+    padding: 20px;
+}
+
+/* --- Темы --- */
+body.dark {
+    background: #1a1a1a;
+    color: #e8e8e8;
+}
+body.light {
+    background: #ffffff;
+    color: #202124;
+}
+
+/* --- Header --- */
+.header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 15px 0 20px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    margin-bottom: 30px;
+    z-index: 2;
+    position: relative;
+}
+body.light .header { border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
+
+.logo-header {
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+}
+
+/* --- Search Bar --- */
+.search-bar-header {
+    flex: 1;
+    max-width: 450px;
+}
+.search-bar-header form {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 50px;
+    padding: 10px 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+body.dark .search-bar-header form { background: rgba(50, 50, 50, 0.95); }
+body.light .search-bar-header form { background: rgba(255,255,255,0.98); }
+
+.search-bar-header form:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+
+.search-bar-header input {
+    flex: 1;
+    padding: 8px 12px;
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    color: inherit;
+    outline: none;
+}
+.search-bar-header input::placeholder { color: #999; }
+body.light .search-bar-header input::placeholder { color: #666; }
+
+.search-bar-header button {
+    background: none;
+    border: none;
+    border-radius: 50%;
+    padding: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+    color: #666;
+}
+body.dark .search-bar-header button { color: #999; }
+body.light .search-bar-header button { color: #666; }
+.search-bar-header button:hover { transform: scale(1.1); }
+
+.home-link {
+    color: inherit;
+    text-decoration: none;
+    padding: 8px 16px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    border: 1px solid rgba(255,255,255,0.3);
+}
+.home-link:hover {
+    background: rgba(255,255,255,0.3);
+}
+body.dark .home-link { background: rgba(255,255,255,0.1); }
+body.light .home-link { background: rgba(0,0,0,0.08); }
+body.dark .home-link:hover { background: rgba(255,255,255,0.2); }
+body.light .home-link:hover { background: rgba(0,0,0,0.12); }
+
+/* --- Results Container --- */
+.container {
+    max-width: 700px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.results-count {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+}
+body.light .results-count { color: rgba(0,0,0,0.6); }
+
+/* --- Result Item --- */
+.result-item {
+    margin-bottom: 25px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+body.dark .result-item { background: rgba(255,255,255,0.05); }
+body.light .result-item { background: rgba(0,0,0,0.03); }
+
+.result-item:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateX(3px);
+}
+body.dark .result-item:hover { background: rgba(255,255,255,0.1); }
+body.light .result-item:hover { background: rgba(0,0,0,0.06); }
+
+.result-url {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.85rem;
+    margin-bottom: 5px;
+    text-decoration: none;
+}
+body.light .result-url { color: rgba(0,0,0,0.5); }
+
+.result-title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: inherit;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s ease;
+}
+.result-title:hover {
+    text-decoration: underline;
+}
+
+.result-description {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+body.light .result-description { color: rgba(0,0,0,0.55); }
+
+.highlight {
+    background: rgba(255, 255, 0, 0.3);
+    font-weight: 600;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+/* --- No Results --- */
+.no-results {
+    text-align: center;
+    padding: 40px 20px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.1rem;
+}
+body.light .no-results { color: rgba(0,0,0,0.6); }
+
+/* --- User Avatar --- */
+.logo {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    border: 3px solid rgba(255,255,255,0.8);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+    z-index: 10;
+    object-fit: cover;
+    cursor: pointer;
+}
+.logo:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+}
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .search-bar-header {
+        width: 100%;
+    }
+
+    .logo-header {
+        font-size: 1.5rem;
+    }
+
+    .result-title {
+        font-size: 1.1rem;
+    }
+
+    .home-link {
+        width: 100%;
+        text-align: center;
+    }
+
+    .logo {
+        width: 50px;
+        height: 50px;
+        top: 15px;
+        right: 15px;
+    }
+}
+</style>
+</head>
+<body>
+
+<a href="settings">
+    <img class="logo" src="images/placeholder.svg" alt="User Avatar">
+</a>
+
+<div class="header">
+    <div class="logo-header">🔍 Results</div>
+    
+    <div class="search-bar-header">
+        <form method="get">
+            <input type="text" name="q" placeholder="Search..." id="headerSearch">
+            <button type="submit">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85zm-5.242 1.656a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"/>
+                </svg>
+            </button>
+        </form>
+    </div>
+
+    <a href="index.html" class="home-link">← Home</a>
+</div>
+
+<div class="container">
+    <div class="results-count" id="resultsCount"></div>
+    <div id="results"></div>
+</div>
+
+<script>
+// --- Cookie функция ---
+function getCookie(name) {
+    const cname = name + "=";
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const ca = decodedCookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+        let c = ca[i].trim();
+        if (c.indexOf(cname) === 0) return c.substring(cname.length, c.length);
+    }
+    return "";
+}
+
+// --- Применение темы ---
+function applyTheme(theme) {
+    document.body.classList.remove('dark', 'light');
+    document.body.style.background = '';
+    document.body.style.color = '';
+    switch(theme) {
+        case 'dark': document.body.classList.add('dark'); break;
+        case 'light': document.body.classList.add('light'); break;
+        case 'gif':
+            document.body.style.background = 'url("images/background.gif") no-repeat center center fixed';
+            document.body.style.backgroundSize = 'cover';
+            document.body.style.color = 'white';
+            break;
+        case 'gradient':
+            const gradients = [
+                'linear-gradient(135deg, #ff7e5f, #feb47b)',
+                'linear-gradient(135deg, #6a11cb, #2575fc)',
+                'linear-gradient(135deg, #ff6a00, #ee0979)',
+                'linear-gradient(135deg, #43cea2, #185a9d)'
+            ];
+            const randomGradient = gradients[Math.floor(Math.random() * gradients.length)];
+            document.body.style.background = randomGradient;
+            document.body.style.color = 'white';
+            break;
+    }
+}
+
+// --- Database of links --- 
+const links = [
+    { 
+        title: 'Wikipedia', 
+        url: 'https://www.wikipedia.org',
+        description: 'Free encyclopedia with millions of articles on nearly every topic.'
+    },
+    { 
+        title: 'Internet Archive', 
+        url: 'https://archive.org',
+        description: 'Digital library with millions of free books, texts, audio and video files.'
+    },
+    { 
+        title: 'GitHub', 
+        url: 'https://www.github.com',
+        description: 'Where the world builds software. Millions of developers and companies use GitHub.'
+    },
+    { 
+        title: 'YouTube', 
+        url: 'https://www.youtube.com',
+        description: 'Share your videos with friends, family and the world.'
+    },
+    { 
+        title: 'Python', 
+        url: 'https://www.python.org',
+        description: 'The official home of the Python Programming Language.'
+    }
+];
+
+// --- Highlight search term ---
+function highlightTerm(text, term) {
+    if (!term) return text;
+    const regex = new RegExp(`(${term})`, 'gi');
+    return text.replace(regex, '<span class="highlight">$1</span>');
+}
+
+// --- Display results ---
+function displayResults(query) {
+    const resultsContainer = document.getElementById('results');
+    const resultsCount = document.getElementById('resultsCount');
+    
+    if (!query.trim()) {
+        resultsContainer.innerHTML = '<div class="no-results">Enter a search term to see results.</div>';
+        resultsCount.textContent = '';
+        return;
+    }
+
+    // Filter results
+    const filtered = links.filter(link =>
+        link.title.toLowerCase().includes(query.toLowerCase()) ||
+        link.description.toLowerCase().includes(query.toLowerCase()) ||
+        link.url.toLowerCase().includes(query.toLowerCase())
+    );
+
+    // Display results
+    if (filtered.length > 0) {
+        resultsCount.textContent = `About ${filtered.length} result${filtered.length > 1 ? 's' : ''} for "${query}"`;
+        
+        resultsContainer.innerHTML = filtered.map(link => `
+            <div class="result-item">
+                <div class="result-url">${link.url}</div>
+                <a href="${link.url}" target="_blank" class="result-title">
+                    ${highlightTerm(link.title, query)}
+                </a>
+                <div class="result-description">
+                    ${highlightTerm(link.description, query)}
+                </div>
+            </div>
+        `).join('');
+    } else {
+        resultsContainer.innerHTML = `<div class="no-results">No results found for "<strong>${query}</strong>"</div>`;
+        resultsCount.textContent = '';
+    }
+}
+
+// --- Get search query from URL ---
+document.addEventListener('DOMContentLoaded', () => {
+    // Apply theme
+    const savedTheme = getCookie('theme');
+    if(savedTheme) applyTheme(savedTheme);
+    else applyTheme('gradient');
+
+    // Load avatar from cookie
+    const savedAvatar = getCookie('avatar');
+    if(savedAvatar) document.querySelector('.logo').src = savedAvatar;
+
+    // Get search query
+    const params = new URLSearchParams(window.location.search);
+    const query = params.get('q') || '';
+    
+    document.getElementById('headerSearch').value = query;
+    displayResults(query);
+});
+</script>
+
+</body>
+</html>
