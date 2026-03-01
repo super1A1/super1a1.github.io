@@ -367,13 +367,21 @@ function displayResults(query) {
 
     // Filter results - search across multiple fields including tags and subpages
     const filtered = links.filter(link => {
-        const queryLower = query.toLowerCase();
-        const mainMatch = link.title.toLowerCase().includes(queryLower) ||
-               link.description.toLowerCase().includes(queryLower) ||
-               link.url.toLowerCase().includes(queryLower) ||
-               link.category.toLowerCase().includes(queryLower) ||
-               (link.tags && link.tags.some(tag => tag.toLowerCase().includes(queryLower))) ||
-               (link.type && link.type.toLowerCase().includes(queryLower));
+    const queryLower = query.toLowerCase();
+
+    const mainMatch =
+        link.title.toLowerCase().includes(queryLower) ||
+        link.description.toLowerCase().includes(queryLower) ||
+        link.url.toLowerCase().includes(queryLower) ||
+        (link.type && link.type.toLowerCase().includes(queryLower));
+
+    const subpageMatch = link.subpages && link.subpages.some(sub =>
+        sub.title.toLowerCase().includes(queryLower) ||
+        sub.url.toLowerCase().includes(queryLower)
+    );
+
+    return mainMatch || subpageMatch;
+});
         
         // Also check if any subpages match
         const subpageMatch = link.subpages && link.subpages.some(sub => 
@@ -390,7 +398,7 @@ function displayResults(query) {
         const aExact = a.title.toLowerCase() === query.toLowerCase() ? 1 : 0;
         const bExact = b.title.toLowerCase() === query.toLowerCase() ? 1 : 0;
         if (aExact !== bExact) return bExact - aExact;
-        return (b.popularity || 0) - (a.popularity || 0);
+        return a.title.localeCompare(b.title);
     });
 
     // Display results
@@ -404,7 +412,7 @@ function displayResults(query) {
                      style="width:20px;height:20px;border-radius:4px;">
                     <div style="flex: 1;">
                         <div class="result-url">${link.url}</div>
-                        <div style="font-size: 0.85rem; color: rgba(255,255,255,0.6);">${link.type || link.category}</div>
+                        <div style="font-size: 0.85rem; color: rgba(255,255,255,0.6);">${link.type || ''}</div>
                     </div>
                 </div>
                 <a href="${link.url}" target="_blank" class="result-title">
@@ -413,10 +421,6 @@ function displayResults(query) {
                 <div class="result-description">
                     ${highlightTerm(link.description, query)}
                 </div>
-                ${link.tags ? `<div style="margin-top: 8px; font-size: 0.85rem;">
-                    <span style="color: rgba(255,255,255,0.6);">Tags:</span> 
-                    ${link.tags.map(tag => `<span style="display: inline-block; background: rgba(255,255,255,0.15); padding: 2px 8px; border-radius: 4px; margin-right: 5px; margin-top: 4px;">${tag}</span>`).join('')}
-                </div>` : ''}
             </div>
         `).join('');
     } else {
