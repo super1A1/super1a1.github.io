@@ -247,7 +247,7 @@ body.light .link-item:hover { background: rgba(0,0,0,0.12); }
         transition: all 0.3s ease;
         margin-right: 10px;
     " onmouseover="this.style.background='rgba(255, 255, 255, 0.3)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.2)'">
-        ➕ Add Link
+        Add Link
     </button>
     <button onclick="resetLinks()" style="
         padding: 10px 20px;
@@ -259,7 +259,7 @@ body.light .link-item:hover { background: rgba(0,0,0,0.12); }
         font-size: 0.95rem;
         transition: all 0.3s ease;
     " onmouseover="this.style.background='rgba(255, 255, 255, 0.3)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.2)'">
-        ↺ Reset Links
+        Restore Examples
     </button>
 </div>
 
@@ -321,6 +321,22 @@ function renderLinks() {
     const linksContainer = document.querySelector('.links');
     const links = getLinksDatabaseFromCookie();
     
+    if (links.length === 0) {
+        linksContainer.innerHTML = `
+            <div style="
+                text-align: center;
+                color: rgba(255, 255, 255, 0.7);
+                font-style: italic;
+                padding: 20px;
+                width: 100%;
+                grid-column: 1 / -1;
+            ">
+                No custom links yet. Click "➕ Add Link" to create your first link!
+            </div>
+        `;
+        return;
+    }
+    
     linksContainer.innerHTML = links.map(link => `
         <a href="${link.url}" target="_blank" class="link-item" data-title="${link.title}">
             ${link.title}
@@ -379,17 +395,15 @@ function removeLink(event, title) {
     }
 }
 
-// --- Reset to Default Links ---
+// --- Reset to Original Default Links ---
 function resetLinks() {
-    if (confirm('Reset links to default? This will remove all custom links.')) {
-        saveLinksToCookie(DEFAULT_LINKS);
+    if (confirm('Add original example links back?')) {
+        saveLinksToCookie(ORIGINAL_DEFAULT_LINKS);
         renderLinks();
-        alert('Links reset to defaults!');
+        alert('Example links restored!');
     }
 }
 </script>
 
 </body>
 </html>
-
-
