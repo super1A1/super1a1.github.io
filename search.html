@@ -400,7 +400,8 @@ function displayResults(query) {
         resultsContainer.innerHTML = filtered.map(link => `
             <div class="result-item">
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-                    <span style="font-size: 1.5rem;">${link.icon || '🌐'}</span>
+                    <img src="https://www.google.com/s2/favicons?domain=${new URL(link.url).hostname}&sz=64"
+                     style="width:20px;height:20px;border-radius:4px;">
                     <div style="flex: 1;">
                         <div class="result-url">${link.url}</div>
                         <div style="font-size: 0.85rem; color: rgba(255,255,255,0.6);">${link.type || link.category}</div>
