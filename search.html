@@ -306,147 +306,157 @@ body.light .no-results { color: rgba(0,0,0,0.6); }
 
 <script src="database.js"></script>
 <script>
+
+// ---- Get cookie ----
 function getCookie(name) {
     const cname = name + "=";
     const decodedCookie = decodeURIComponent(document.cookie);
     const ca = decodedCookie.split(';');
-    for(let i = 0; i < ca.length; i++) {
+
+    for (let i = 0; i < ca.length; i++) {
         let c = ca[i].trim();
-        if (c.indexOf(cname) === 0) return c.substring(cname.length, c.length);
+        if (c.indexOf(cname) === 0) {
+            return c.substring(cname.length, c.length);
+        }
     }
     return "";
 }
 
-// --- Применение темы ---
+// ---- Theme ----
 function applyTheme(theme) {
     document.body.classList.remove('dark', 'light');
     document.body.style.background = '';
     document.body.style.color = '';
-    switch(theme) {
-        case 'dark': document.body.classList.add('dark'); break;
-        case 'light': document.body.classList.add('light'); break;
-        case 'gif':
-            document.body.style.background = 'url("images/background.gif") no-repeat center center fixed';
-            document.body.style.backgroundSize = 'cover';
-            document.body.style.color = 'white';
-            break;
-        case 'gradient':
-            const gradients = [
-                'linear-gradient(135deg, #ff7e5f, #feb47b)',
-                'linear-gradient(135deg, #6a11cb, #2575fc)',
-                'linear-gradient(135deg, #ff6a00, #ee0979)',
-                'linear-gradient(135deg, #43cea2, #185a9d)'
-            ];
-            const randomGradient = gradients[Math.floor(Math.random() * gradients.length)];
-            document.body.style.background = randomGradient;
-            document.body.style.color = 'white';
-            break;
-    }
+
+    if (theme === "dark") document.body.classList.add("dark");
+    else if (theme === "light") document.body.classList.add("light");
 }
 
-// --- Database of links --- 
-const links = POPULAR_SITES_DATABASE;
+// ---- Database ----
+const links = typeof POPULAR_SITES_DATABASE !== "undefined"
+    ? POPULAR_SITES_DATABASE
+    : [];
 
-// --- Highlight search term ---
+// ---- Highlight search text ----
 function highlightTerm(text, term) {
     if (!term) return text;
-    const regex = new RegExp(`(${term})`, 'gi');
+
+    const regex = new RegExp(`(${term})`, "gi");
     return text.replace(regex, '<span class="highlight">$1</span>');
 }
 
-// --- Display results ---
+// ---- Display results ----
 function displayResults(query) {
-    const resultsContainer = document.getElementById('results');
-    const resultsCount = document.getElementById('resultsCount');
-    
+
+    const resultsContainer = document.getElementById("results");
+    const resultsCount = document.getElementById("resultsCount");
+
     if (!query.trim()) {
-        resultsContainer.innerHTML = '<div class="no-results">Enter a search term to see results.</div>';
-        resultsCount.textContent = '';
+        resultsContainer.innerHTML =
+            '<div class="no-results">Enter a search term.</div>';
+        resultsCount.textContent = "";
         return;
     }
 
-    // Filter results - search across multiple fields including tags and subpages
+    const q = query.toLowerCase();
+
     const filtered = links.filter(link => {
-    const queryLower = query.toLowerCase();
 
-    const mainMatch =
-        link.title.toLowerCase().includes(queryLower) ||
-        link.description.toLowerCase().includes(queryLower) ||
-        link.url.toLowerCase().includes(queryLower) ||
-        (link.type && link.type.toLowerCase().includes(queryLower));
+        const title = (link.title || "").toLowerCase();
+        const desc = (link.description || "").toLowerCase();
+        const url = (link.url || "").toLowerCase();
+        const type = (link.type || "").toLowerCase();
 
-    const subpageMatch = link.subpages && link.subpages.some(sub =>
-        sub.title.toLowerCase().includes(queryLower) ||
-        sub.url.toLowerCase().includes(queryLower)
-    );
-
-    return mainMatch || subpageMatch;
-});
-        
-        // Also check if any subpages match
-        const subpageMatch = link.subpages && link.subpages.some(sub => 
-            sub.title.toLowerCase().includes(queryLower) ||
-            sub.url.toLowerCase().includes(queryLower) ||
-            sub.category.toLowerCase().includes(queryLower)
+        return (
+            title.includes(q) ||
+            desc.includes(q) ||
+            url.includes(q) ||
+            type.includes(q)
         );
-        
-        return mainMatch || subpageMatch;
-    };
 
-    // Sort by relevance (exact title match first, then popularity)
-    filtered.sort((a, b) => {
-        const aExact = a.title.toLowerCase() === query.toLowerCase() ? 1 : 0;
-        const bExact = b.title.toLowerCase() === query.toLowerCase() ? 1 : 0;
-        if (aExact !== bExact) return bExact - aExact;
-        return a.title.localeCompare(b.title);
     });
 
-    // Display results
-    if (filtered.length > 0) {
-        resultsCount.textContent = `About ${filtered.length} result${filtered.length > 1 ? 's' : ''} for "${query}"`;
-        
-        resultsContainer.innerHTML = filtered.map(link => `
-            <div class="result-item">
-                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-                    <img src="https://www.google.com/s2/favicons?domain=${new URL(link.url).hostname}&sz=64"
+    // Sort alphabetically
+    filtered.sort((a, b) =>
+        (a.title || "").localeCompare(b.title || "")
+    );
+
+    if (filtered.length === 0) {
+
+        resultsContainer.innerHTML =
+            `<div class="no-results">
+                No results found for "<strong>${query}</strong>"
+             </div>`;
+
+        resultsCount.textContent = "";
+        return;
+    }
+
+    resultsCount.textContent =
+        `About ${filtered.length} result${filtered.length > 1 ? "s" : ""} for "${query}"`;
+
+    resultsContainer.innerHTML = filtered.map(link => {
+
+        let hostname = "";
+        try {
+            hostname = new URL(link.url).hostname;
+        } catch {
+            hostname = "";
+        }
+
+        return `
+        <div class="result-item">
+
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+
+                <img src="https://www.google.com/s2/favicons?domain=${hostname}&sz=64"
                      style="width:20px;height:20px;border-radius:4px;">
-                    <div style="flex: 1;">
-                        <div class="result-url">${link.url}</div>
-                        <div style="font-size: 0.85rem; color: rgba(255,255,255,0.6);">${link.type || ''}</div>
+
+                <div>
+                    <div class="result-url">${link.url || ""}</div>
+                    <div style="font-size:0.85rem;opacity:0.6;">
+                        ${link.type || ""}
                     </div>
                 </div>
-                <a href="${link.url}" target="_blank" class="result-title">
-                    ${highlightTerm(link.title, query)}
-                </a>
-                <div class="result-description">
-                    ${highlightTerm(link.description, query)}
-                </div>
+
             </div>
-        `).join('');
-    } else {
-        resultsContainer.innerHTML = `<div class="no-results">No results found for "<strong>${query}</strong>"</div>`;
-        resultsCount.textContent = '';
-    }
+
+            <a href="${link.url}" target="_blank" class="result-title">
+                ${highlightTerm(link.title || "", query)}
+            </a>
+
+            <div class="result-description">
+                ${highlightTerm(link.description || "", query)}
+            </div>
+
+        </div>
+        `;
+
+    }).join("");
+
 }
 
-// --- Get search query from URL ---
-document.addEventListener('DOMContentLoaded', () => {
-    // Apply theme
-    const savedTheme = getCookie('theme');
-    if(savedTheme) applyTheme(savedTheme);
-    else applyTheme('gradient');
+// ---- Page load ----
+document.addEventListener("DOMContentLoaded", () => {
 
-    // Load avatar from cookie
-    const savedAvatar = getCookie('avatar');
-    if(savedAvatar) document.querySelector('.logo').src = savedAvatar;
+    const savedTheme = getCookie("theme");
+    if (savedTheme) applyTheme(savedTheme);
 
-    // Get search query
+    const savedAvatar = getCookie("avatar");
+    if (savedAvatar) {
+        const avatar = document.querySelector(".logo");
+        if (avatar) avatar.src = savedAvatar;
+    }
+
     const params = new URLSearchParams(window.location.search);
-    const query = params.get('q') || '';
-    
-    document.getElementById('headerSearch').value = query;
+    const query = params.get("q") || "";
+
+    document.getElementById("headerSearch").value = query;
+
     displayResults(query);
+
 });
+
 </script>
 
 </body>
