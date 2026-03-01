@@ -405,10 +405,6 @@ function displayResults(query) {
                         <div class="result-url">${link.url}</div>
                         <div style="font-size: 0.85rem; color: rgba(255,255,255,0.6);">${link.type || link.category}</div>
                     </div>
-                    <div style="text-align: right; font-size: 0.85rem;">
-                        ${link.rating ? '⭐ ' + link.rating : ''}
-                        ${link.founded ? ' • Founded ' + link.founded : ''}
-                    </div>
                 </div>
                 <a href="${link.url}" target="_blank" class="result-title">
                     ${highlightTerm(link.title, query)}
