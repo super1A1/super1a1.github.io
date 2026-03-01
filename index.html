@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Start Page</title>
+<link rel="icon" type="image/x-icon" href="images/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    position: relative;
+    transition: background 0.5s, color 0.5s;
+    overflow-x: hidden;
+}
+
+/* --- Темы --- */
+body.dark {
+    background: #1a1a1a;
+    color: white;
+}
+body.light {
+    background: #ffffff;
+    color: #202124;
+}
+
+/* --- Заголовок --- */
+h1 {
+    font-size: 3.2rem;
+    text-align: center;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 10px rgba(0,0,0,0.2);
+    animation: fadeIn 1s ease forwards;
+    opacity: 0;
+    z-index: 2;
+    font-weight: 600;
+}
+
+/* --- Search Bar --- */
+.search-bar {
+    width: 100%;
+    max-width: 550px;
+    margin: 30px auto;
+    animation: fadeIn 1s ease forwards;
+    opacity: 0;
+    z-index: 2;
+}
+.search-bar form {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 50px;
+    padding: 12px 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(2px);
+}
+
+/* Enhanced glass effect for GIF background */
+body .search-bar form {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+body.dark .search-bar form { 
+    background: rgba(50, 50, 50, 0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+body.light .search-bar form { 
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.search-bar form:hover { 
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    background: rgba(255, 255, 255, 0.95);
+}
+body.dark .search-bar form:hover {
+    background: rgba(50, 50, 50, 0.95);
+}
+
+.search-bar input {
+    flex: 1;
+    padding: 10px 15px;
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    color: #1a1a1a;
+    outline: none;
+}
+.search-bar input::placeholder { color: #999; }
+body.dark .search-bar input { color: #e0e0e0; }
+body.light .search-bar input { color: #202124; }
+
+.search-bar button {
+    background: none;
+    border: none;
+    border-radius: 50%;
+    padding: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: 0.3s;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+body.dark .search-bar button { color: #999; }
+body.light .search-bar button { color: #666; }
+.search-bar button:hover { transform: scale(1.1); }
+
+/* --- User Avatar --- */
+.logo {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 80px;
+    height: 80px;
+    border-radius: 15px;
+    border: 4px solid rgba(255,255,255,0.8);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+    z-index: 2;
+    object-fit: cover;
+}
+.logo:hover {
+    transform: scale(1.1);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+
+/* --- Glass Buttons --- */
+.links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 40px;
+    animation: fadeIn 1s 0.3s ease forwards;
+    opacity: 0;
+    z-index: 2;
+    gap: 12px;
+}
+
+.link-item {
+    padding: 12px 28px;
+    font-size: 1rem;
+    text-decoration: none;
+    color: inherit;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border: 1px solid rgba(255,255,255,0.3);
+    transition: all 0.3s ease;
+    font-weight: 500;
+    position: relative;
+}
+
+.link-item::after {
+    content: "Right-click to remove";
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.link-item:hover::after {
+    opacity: 1;
+}
+
+body.dark .link-item { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); }
+body.light .link-item { background: rgba(0,0,0,0.08); color: #202124; border: 1px solid rgba(0,0,0,0.1); }
+
+.link-item:hover { 
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    background: rgba(255, 255, 255, 0.3);
+}
+body.dark .link-item:hover { background: rgba(255,255,255,0.2); }
+body.light .link-item:hover { background: rgba(0,0,0,0.12); }
+
+/* --- Animations --- */
+@keyframes fadeIn { to { opacity: 1; } }
+
+/* --- Адаптив --- */
+@media (max-width: 768px) {
+    h1 { font-size: 2.5rem; margin: 15px; }
+    .links a { font-size: 1rem; padding: 10px 20px; margin: 10px; }
+    .logo { width: 60px; height: 60px; top: 15px; right: 15px; }
+    .links { flex-direction: column; align-items: center; }
+    .search-bar { width: 90%; }
+}
+</style>
+</head>
+<body>
+
+<h1>Welcome to My Start Page</h1>
+
+<div class="search-bar">
+    <form action="search" method="get" id="searchForm">
+        <input type="text" id="searchInput" name="q" placeholder="Search...">
+        <button type="submit">
+            <!-- SVG значок лупы -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85zm-5.242 1.656a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"/>
+            </svg>
+        </button>
+    </form>
+</div>
+
+<a href="settings">
+    <img class="logo" src="images/placeholder.svg" alt="User Avatar">
+</a>
+
+<div class="links">
+    <!-- Links rendered dynamically by JavaScript -->
+</div>
+
+<div style="text-align: center; margin-top: 30px; z-index: 2; position: relative;">
+    <button onclick="addCustomLink()" style="
+        padding: 10px 20px;
+        background: rgba(255, 255, 255, 0.2);
+        color: inherit;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        margin-right: 10px;
+    " onmouseover="this.style.background='rgba(255, 255, 255, 0.3)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.2)'">
+        ➕ Add Link
+    </button>
+    <button onclick="resetLinks()" style="
+        padding: 10px 20px;
+        background: rgba(255, 255, 255, 0.2);
+        color: inherit;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+    " onmouseover="this.style.background='rgba(255, 255, 255, 0.3)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.2)'">
+        ↺ Reset Links
+    </button>
+</div>
+
+<script src="database.js"></script>
+<script>
+// --- Cookie функция ---
+function getCookie(name) {
+    const cname = name + "=";
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const ca = decodedCookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+        let c = ca[i].trim();
+        if (c.indexOf(cname) === 0) return c.substring(cname.length, c.length);
+    }
+    return "";
+}
+
+// --- Применение темы ---
+function applyTheme(theme) {
+    document.body.classList.remove('dark', 'light');
+    document.body.style.background = '';
+    document.body.style.color = '';
+    switch(theme) {
+        case 'dark': document.body.classList.add('dark'); break;
+        case 'light': document.body.classList.add('light'); break;
+        case 'gif':
+            document.body.style.background = 'url("images/background.gif") no-repeat center center fixed';
+            document.body.style.backgroundSize = 'cover';
+            document.body.style.color = 'white';
+            break;
+        case 'gradient':
+            const gradients = [
+                'linear-gradient(135deg, #ff7e5f, #feb47b)',
+                'linear-gradient(135deg, #6a11cb, #2575fc)',
+                'linear-gradient(135deg, #ff6a00, #ee0979)',
+                'linear-gradient(135deg, #43cea2, #185a9d)'
+            ];
+            const randomGradient = gradients[Math.floor(Math.random() * gradients.length)];
+            document.body.style.background = randomGradient;
+            document.body.style.color = 'white';
+            break;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = getCookie('theme');
+    if(savedTheme) applyTheme(savedTheme);
+    else applyTheme('gradient'); // по умолчанию градиент
+
+    const savedAvatar = getCookie('avatar');
+    if(savedAvatar) document.querySelector('.logo').src = savedAvatar;
+
+    // Render custom links from database
+    renderLinks();
+});
+
+// --- Render Links from Database ---
+function renderLinks() {
+    const linksContainer = document.querySelector('.links');
+    const links = getLinksDatabaseFromCookie();
+    
+    linksContainer.innerHTML = links.map(link => `
+        <a href="${link.url}" target="_blank" class="link-item" data-title="${link.title}">
+            ${link.title}
+        </a>
+    `).join('');
+    
+    // Add right-click handler to all links
+    document.querySelectorAll('.link-item').forEach(linkEl => {
+        linkEl.addEventListener('contextmenu', (e) => {
+            removeLink(e, linkEl.getAttribute('data-title'));
+        });
+    });
+}
+
+// --- Add Custom Link ---
+function addCustomLink() {
+    const title = prompt('Enter link name (e.g., "Google"):');
+    if (!title || title.trim() === '') return;
+    
+    const url = prompt('Enter full URL (e.g., "https://google.com"):');
+    if (!url || url.trim() === '') return;
+    
+    if (!url.includes('://')) {
+        alert('URL must include http:// or https://');
+        return;
+    }
+    
+    const links = getLinksDatabaseFromCookie();
+    
+    // Check if link already exists
+    if (links.some(l => l.title.toLowerCase() === title.toLowerCase())) {
+        alert('This link already exists!');
+        return;
+    }
+    
+    links.push({
+        title: title.trim(),
+        url: url.trim(),
+        description: 'Custom link',
+        category: 'Custom'
+    });
+    
+    saveLinksToCookie(links);
+    renderLinks();
+    alert(`"${title}" added successfully!`);
+}
+
+// --- Remove Link (right-click) ---
+function removeLink(event, title) {
+    event.preventDefault();
+    if (confirm(`Remove "${title}" from your links?`)) {
+        const links = getLinksDatabaseFromCookie();
+        const updated = links.filter(l => l.title !== title);
+        saveLinksToCookie(updated);
+        renderLinks();
+    }
+}
+
+// --- Reset to Default Links ---
+function resetLinks() {
+    if (confirm('Reset links to default? This will remove all custom links.')) {
+        saveLinksToCookie(DEFAULT_LINKS);
+        renderLinks();
+        alert('Links reset to defaults!');
+    }
+}
+</script>
+
+</body>
+</html>
+
+
