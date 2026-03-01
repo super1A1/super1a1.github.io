@@ -391,7 +391,7 @@ function displayResults(query) {
         );
         
         return mainMatch || subpageMatch;
-    });
+    };
 
     // Sort by relevance (exact title match first, then popularity)
     filtered.sort((a, b) => {
