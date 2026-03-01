@@ -309,22 +309,6 @@ function renderLinks() {
     const linksContainer = document.querySelector('.links');
     const links = getLinksDatabaseFromCookie();
     
-    if (links.length === 0) {
-        linksContainer.innerHTML = `
-            <div style="
-                text-align: center;
-                color: rgba(255, 255, 255, 0.7);
-                font-style: italic;
-                padding: 20px;
-                width: 100%;
-                grid-column: 1 / -1;
-            ">
-                No custom links yet
-            </div>
-        `;
-        return;
-    }
-    
     linksContainer.innerHTML = links.map(link => `
         <a href="${link.url}" target="_blank" class="link-item" data-title="${link.title}">
             ${link.title}
