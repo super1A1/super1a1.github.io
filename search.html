@@ -195,6 +195,27 @@ body.light .result-description { color: rgba(0,0,0,0.55); }
     border-radius: 3px;
 }
 
+.result-tags {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.8);
+}
+
+body.light .tag {
+    background: rgba(0,0,0,0.08);
+    color: rgba(0,0,0,0.7);
+}
+
 /* --- No Results --- */
 .no-results {
     text-align: center;
@@ -262,7 +283,7 @@ body.light .no-results { color: rgba(0,0,0,0.6); }
 </a>
 
 <div class="header">
-    <a href="/" style="text-decoration: none; color: inherit;">
+    <a href="index" style="text-decoration: none; color: inherit;">
         <div class="logo-header">MSP</div>
     </a>
     
@@ -344,12 +365,33 @@ function displayResults(query) {
         return;
     }
 
-    // Filter results
-    const filtered = links.filter(link =>
-        link.title.toLowerCase().includes(query.toLowerCase()) ||
-        link.description.toLowerCase().includes(query.toLowerCase()) ||
-        link.url.toLowerCase().includes(query.toLowerCase())
-    );
+    // Filter results - search across multiple fields including tags and subpages
+    const filtered = links.filter(link => {
+        const queryLower = query.toLowerCase();
+        const mainMatch = link.title.toLowerCase().includes(queryLower) ||
+               link.description.toLowerCase().includes(queryLower) ||
+               link.url.toLowerCase().includes(queryLower) ||
+               link.category.toLowerCase().includes(queryLower) ||
+               (link.tags && link.tags.some(tag => tag.toLowerCase().includes(queryLower))) ||
+               (link.type && link.type.toLowerCase().includes(queryLower));
+        
+        // Also check if any subpages match
+        const subpageMatch = link.subpages && link.subpages.some(sub => 
+            sub.title.toLowerCase().includes(queryLower) ||
+            sub.url.toLowerCase().includes(queryLower) ||
+            sub.category.toLowerCase().includes(queryLower)
+        );
+        
+        return mainMatch || subpageMatch;
+    });
+
+    // Sort by relevance (exact title match first, then popularity)
+    filtered.sort((a, b) => {
+        const aExact = a.title.toLowerCase() === query.toLowerCase() ? 1 : 0;
+        const bExact = b.title.toLowerCase() === query.toLowerCase() ? 1 : 0;
+        if (aExact !== bExact) return bExact - aExact;
+        return (b.popularity || 0) - (a.popularity || 0);
+    });
 
     // Display results
     if (filtered.length > 0) {
@@ -357,13 +399,52 @@ function displayResults(query) {
         
         resultsContainer.innerHTML = filtered.map(link => `
             <div class="result-item">
-                <div class="result-url">${link.url}</div>
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                    <span style="font-size: 1.5rem;">${link.icon || '🌐'}</span>
+                    <div style="flex: 1;">
+                        <div class="result-url">${link.url}</div>
+                        <div style="font-size: 0.85rem; color: rgba(255,255,255,0.6);">${link.type || link.category}</div>
+                    </div>
+                    <div style="text-align: right; font-size: 0.85rem;">
+                        ${link.rating ? '⭐ ' + link.rating : ''}
+                        ${link.founded ? ' • Founded ' + link.founded : ''}
+                    </div>
+                </div>
                 <a href="${link.url}" target="_blank" class="result-title">
                     ${highlightTerm(link.title, query)}
                 </a>
                 <div class="result-description">
                     ${highlightTerm(link.description, query)}
                 </div>
+                ${link.tags ? `<div style="margin-top: 8px; font-size: 0.85rem;">
+                    <span style="color: rgba(255,255,255,0.6);">Tags:</span> 
+                    ${link.tags.map(tag => `<span style="display: inline-block; background: rgba(255,255,255,0.15); padding: 2px 8px; border-radius: 4px; margin-right: 5px; margin-top: 4px;">${tag}</span>`).join('')}
+                </div>` : ''}
+                ${link.subpages && link.subpages.length > 0 ? `
+                    <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.2);">
+                        <div style="font-size: 0.85rem; color: rgba(255,255,255,0.7); margin-bottom: 8px;">📂 Related Pages:</div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                            ${link.subpages.map(sub => `
+                                <a href="${sub.url}" target="_blank" style="
+                                    display: inline-block;
+                                    background: rgba(255,255,255,0.1);
+                                    padding: 6px 12px;
+                                    border-radius: 6px;
+                                    color: rgba(100, 200, 255, 1);
+                                    text-decoration: none;
+                                    font-size: 0.85rem;
+                                    transition: all 0.3s ease;
+                                    border: 1px solid rgba(100, 200, 255, 0.3);
+                                "
+                                onmouseover="this.style.background='rgba(100, 200, 255, 0.2)'; this.style.borderColor='rgba(100, 200, 255, 0.7)';"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.borderColor='rgba(100, 200, 255, 0.3)';">
+                                    ${highlightTerm(sub.title, query)}
+                                    <span style="margin-left: 4px;">${sub.category ? '[' + sub.category + ']' : ''}</span>
+                                </a>
+                            `).join('')}
+                        </div>
+                    </div>
+                ` : ''}
             </div>
         `).join('');
     } else {
