@@ -1,3 +1,5 @@
+const DEFAULT_LINKS = [];
+
 const POPULAR_SITES_DATABASE = [
     {
         "title": "Google",
