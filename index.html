@@ -259,7 +259,6 @@ body.light .link-item:hover { background: rgba(0,0,0,0.12); }
         font-size: 0.95rem;
         transition: all 0.3s ease;
     " onmouseover="this.style.background='rgba(255, 255, 255, 0.3)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.2)'">
-        Restore Examples
     </button>
 </div>
 
@@ -395,12 +394,12 @@ function removeLink(event, title) {
     }
 }
 
-// --- Reset to Original Default Links ---
+// --- Reset to Popular Sites Database ---
 function resetLinks() {
-    if (confirm('Add original example links back?')) {
-        saveLinksToCookie(ORIGINAL_DEFAULT_LINKS);
+    if (confirm('Add ~200 popular websites? You can remove any you don\'t want.')) {
+        saveLinksToCookie(POPULAR_SITES_DATABASE);
         renderLinks();
-        alert('Example links restored!');
+        alert('Popular websites loaded! You can remove any by right-clicking them.');
     }
 }
 </script>
