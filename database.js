@@ -152,7 +152,14 @@ const POPULAR_SITES_DATABASE = [
         icon: '▶️',
         type: 'Video Platform',
         founded: 2005,
-        country: 'USA'
+        country: 'USA',
+        subpages: [
+            { title: 'YouTube Music', url: 'https://music.youtube.com', category: 'Music' },
+            { title: 'YouTube Studio', url: 'https://studio.youtube.com', category: 'Creator Tools' },
+            { title: 'YouTube Shorts', url: 'https://www.youtube.com/shorts', category: 'Short Videos' },
+            { title: 'YouTube Learning', url: 'https://learning.youtube.com', category: 'Education' },
+            { title: 'YouTube Trends', url: 'https://www.youtube.com/feed/trending', category: 'Trending' }
+        ]
     },
     {
         title: 'Netflix',
@@ -234,7 +241,14 @@ const POPULAR_SITES_DATABASE = [
         icon: '💻',
         type: 'Code Repository',
         founded: 2008,
-        country: 'USA'
+        country: 'USA',
+        subpages: [
+            { title: 'GitHub Copilot', url: 'https://github.com/features/copilot', category: 'AI' },
+            { title: 'GitHub Actions', url: 'https://github.com/features/actions', category: 'Development' },
+            { title: 'GitHub Discussions', url: 'https://github.com/features/discussions', category: 'Community' },
+            { title: 'GitHub Pages', url: 'https://pages.github.com/', category: 'Hosting' },
+            { title: 'GitHub Issues', url: 'https://github.com/features/issues', category: 'Project Management' }
+        ]
     },
     {
         title: 'Stack Overflow',
@@ -247,7 +261,14 @@ const POPULAR_SITES_DATABASE = [
         icon: '❓',
         type: 'Q&A Platform',
         founded: 2008,
-        country: 'USA'
+        country: 'USA',
+        subpages: [
+            { title: 'Python Questions', url: 'https://stackoverflow.com/questions/tagged/python', category: 'Python' },
+            { title: 'JavaScript Questions', url: 'https://stackoverflow.com/questions/tagged/javascript', category: 'JavaScript' },
+            { title: 'React Questions', url: 'https://stackoverflow.com/questions/tagged/reactjs', category: 'React' },
+            { title: 'Node.js Questions', url: 'https://stackoverflow.com/questions/tagged/node.js', category: 'Node.js' },
+            { title: 'Tags', url: 'https://stackoverflow.com/tags', category: 'Browse' }
+        ]
     },
     {
         title: 'React',
@@ -314,7 +335,14 @@ const POPULAR_SITES_DATABASE = [
         icon: '☁️',
         type: 'Cloud Platform',
         founded: 2006,
-        country: 'USA'
+        country: 'USA',
+        subpages: [
+            { title: 'EC2', url: 'https://aws.amazon.com/ec2/', category: 'Computing' },
+            { title: 'S3', url: 'https://aws.amazon.com/s3/', category: 'Storage' },
+            { title: 'Lambda', url: 'https://aws.amazon.com/lambda/', category: 'Serverless' },
+            { title: 'RDS', url: 'https://aws.amazon.com/rds/', category: 'Database' },
+            { title: 'Documentation', url: 'https://docs.aws.amazon.com/', category: 'Docs' }
+        ]
     },
     {
         title: 'Google Cloud',
@@ -914,7 +942,14 @@ const POPULAR_SITES_DATABASE = [
         icon: 'W',
         type: 'Encyclopedia',
         founded: 2001,
-        country: 'USA'
+        country: 'USA',
+        subpages: [
+            { title: 'Minecraft', url: 'https://en.wikipedia.org/wiki/Minecraft', category: 'Gaming' },
+            { title: 'Artificial Intelligence', url: 'https://en.wikipedia.org/wiki/Artificial_intelligence', category: 'AI' },
+            { title: 'Python (language)', url: 'https://en.wikipedia.org/wiki/Python_(programming_language)', category: 'Programming' },
+            { title: 'Cloud Computing', url: 'https://en.wikipedia.org/wiki/Cloud_computing', category: 'Cloud' },
+            { title: 'Machine Learning', url: 'https://en.wikipedia.org/wiki/Machine_learning', category: 'AI' }
+        ]
     },
     {
         title: 'Internet Archive',
