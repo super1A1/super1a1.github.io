@@ -468,6 +468,12 @@ const POPULAR_SITES_DATABASE = [
         "type": "Data Platform"
     },
     {
+        "title": "Genius",
+        "url": "https://genius.com",
+        "description": "A platform for song lyrics, annotations, and music knowledge powered by artists and fans.",
+        "type": "Music Knowledge Base"
+    },
+    {
         "title": "Gmail",
         "url": "https://mail.google.com",
         "description": "Fast, searchable, and secure email with 15GB of storage.",
