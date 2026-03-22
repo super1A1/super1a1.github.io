@@ -11,7 +11,7 @@
  */
 
 const TalkONAuth = (() => {
-  const WS_URL    = "ws://158.180.58.45:8765";
+  const WS_URL = "wss://talkon.duckdns.org:8765";
   const COOKIE_USER = "talkon_user";
   const COOKIE_PASS = "talkon_pass";
 
