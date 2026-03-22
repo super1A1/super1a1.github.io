@@ -279,7 +279,7 @@ body.light .no-results { color: rgba(0,0,0,0.6); }
 <body>
 
 <a href="settings">
-    <img class="logo" src="images/placeholder.svg" alt="User Avatar">
+    <img class="logo user-avatar" id="user-avatar" src="images/placeholder.svg" alt="User Avatar">
 </a>
 
 <div class="header">
@@ -304,6 +304,7 @@ body.light .no-results { color: rgba(0,0,0,0.6); }
     <div id="results"></div>
 </div>
 
+<script src="auth.js"></script>
 <script src="database.js"></script>
 <script>
 
@@ -442,11 +443,23 @@ document.addEventListener("DOMContentLoaded", () => {
     const savedTheme = getCookie("theme");
     if (savedTheme) applyTheme(savedTheme);
 
+    // Local cookie avatar (fallback)
     const savedAvatar = getCookie("avatar");
     if (savedAvatar) {
         const avatar = document.querySelector(".logo");
         if (avatar) avatar.src = savedAvatar;
     }
+
+    // TalkON server avatar overrides local if logged in
+    const talkonAvatar = (() => { try { return sessionStorage.getItem('talkon_avatar'); } catch { return null; } })();
+    if (talkonAvatar) {
+        const avatar = document.querySelector('.logo');
+        if (avatar) avatar.src = 'data:image/png;base64,' + talkonAvatar;
+    }
+    document.addEventListener('talkon:avatar', (e) => {
+        const avatar = document.querySelector('.logo');
+        if (avatar) avatar.src = e.detail.src;
+    });
 
     const params = new URLSearchParams(window.location.search);
     const query = params.get("q") || "";
