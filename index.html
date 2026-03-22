@@ -228,7 +228,7 @@ body.light .link-item:hover { background: rgba(0,0,0,0.12); }
 </div>
 
 <a href="settings">
-    <img class="logo" src="images/placeholder.svg" alt="User Avatar">
+    <img class="logo user-avatar" id="user-avatar" src="images/placeholder.svg" alt="User Avatar">
 </a>
 
 <div class="links">
@@ -251,6 +251,7 @@ body.light .link-item:hover { background: rgba(0,0,0,0.12); }
     </button>
 </div>
 
+<script src="auth.js"></script>
 <script src="database.js"></script>
 <script>
 // --- Cookie функция ---
@@ -297,8 +298,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if(savedTheme) applyTheme(savedTheme);
     else applyTheme('gradient'); // по умолчанию градиент
 
+    // Local cookie avatar (fallback)
     const savedAvatar = getCookie('avatar');
     if(savedAvatar) document.querySelector('.logo').src = savedAvatar;
+
+    // TalkON server avatar overrides local if logged in
+    const talkonAvatar = (() => { try { return sessionStorage.getItem('talkon_avatar'); } catch { return null; } })();
+    if(talkonAvatar) document.querySelector('.logo').src = 'data:image/png;base64,' + talkonAvatar;
+    document.addEventListener('talkon:avatar', (e) => {
+        document.querySelector('.logo').src = e.detail.src;
+    });
 
     // Render custom links from database
     renderLinks();
