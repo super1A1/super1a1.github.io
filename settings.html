@@ -100,6 +100,220 @@ h1 {
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     display: none;
 }
+
+/* ── Account Section ── */
+.account-section {
+    width: 100%;
+    max-width: 400px;
+    margin-top: 30px;
+}
+
+.account-section h2 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    text-align: center;
+    opacity: .85;
+    letter-spacing: .04em;
+}
+
+.acc-tabs {
+    display: flex;
+    gap: .25rem;
+    margin-bottom: 14px;
+    background: rgba(0,0,0,.2);
+    border-radius: 8px;
+    padding: .25rem;
+}
+
+.acc-tab {
+    flex: 1;
+    text-align: center;
+    padding: .45rem;
+    border-radius: 6px;
+    font-size: .85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .15s, color .15s;
+    color: rgba(255,255,255,.55);
+    user-select: none;
+}
+
+.acc-tab.active { background: rgba(255,255,255,.25); color: #fff; }
+body.light-theme .acc-tab { color: rgba(0,0,0,.45); }
+body.light-theme .acc-tab.active { background: rgba(0,0,0,.15); color: #202124; }
+
+.acc-card {
+    background: rgba(255,255,255,.15);
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 14px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s 1.4s forwards;
+}
+body.light-theme .acc-card {
+    background: rgba(0,0,0,.06);
+    border: 1px solid rgba(0,0,0,.1);
+}
+
+.acc-field {
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+    margin-bottom: 12px;
+}
+
+.acc-field label {
+    font-size: .72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    opacity: .65;
+}
+
+.acc-field input,
+.acc-field textarea {
+    background: rgba(0,0,0,.2);
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 8px;
+    color: inherit;
+    font-size: .9rem;
+    padding: .55rem .75rem;
+    transition: border-color .15s;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: inherit;
+    resize: vertical;
+}
+body.light-theme .acc-field input,
+body.light-theme .acc-field textarea {
+    background: rgba(0,0,0,.06);
+    border: 1px solid rgba(0,0,0,.15);
+    color: #202124;
+}
+
+.acc-field input:focus,
+.acc-field textarea:focus {
+    outline: none;
+    border-color: rgba(255,255,255,.6);
+}
+body.light-theme .acc-field input:focus,
+body.light-theme .acc-field textarea:focus { border-color: rgba(0,0,0,.4); }
+
+.acc-field input::placeholder,
+.acc-field textarea::placeholder { color: rgba(255,255,255,.4); }
+body.light-theme .acc-field input::placeholder,
+body.light-theme .acc-field textarea::placeholder { color: rgba(0,0,0,.35); }
+
+.acc-btn-row { display: flex; gap: .6rem; flex-wrap: wrap; margin-top: 4px; }
+
+.acc-btn {
+    padding: .5rem 1.1rem;
+    border-radius: 8px;
+    font-size: .88rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,.3);
+    background: rgba(255,255,255,.2);
+    color: inherit;
+    transition: all .2s;
+    white-space: nowrap;
+}
+.acc-btn:disabled { opacity: .5; cursor: default; }
+.acc-btn:not(:disabled):hover {
+    background: rgba(255,255,255,.3);
+    transform: translateY(-1px);
+}
+body.light-theme .acc-btn {
+    background: rgba(0,0,0,.08);
+    border: 1px solid rgba(0,0,0,.15);
+    color: #202124;
+}
+body.light-theme .acc-btn:not(:disabled):hover { background: rgba(0,0,0,.14); }
+
+.acc-btn-danger {
+    background: rgba(220,50,50,.3);
+    border-color: rgba(220,50,50,.5);
+}
+.acc-btn-danger:not(:disabled):hover {
+    background: rgba(220,50,50,.45) !important;
+}
+
+.acc-alert {
+    border-radius: 6px;
+    padding: .5rem .75rem;
+    font-size: .82rem;
+    margin-top: 10px;
+    display: none;
+}
+.acc-alert.show { display: block; }
+.acc-alert.err  { background: rgba(220,50,50,.2);  border: 1px solid rgba(220,50,50,.4);  color: #ff9999; }
+.acc-alert.ok   { background: rgba(50,200,100,.15); border: 1px solid rgba(50,200,100,.4); color: #80ffaa; }
+body.light-theme .acc-alert.err { color: #c00; }
+body.light-theme .acc-alert.ok  { color: #090; }
+
+.acc-avatar-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+.acc-avatar-wrap {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+}
+
+.acc-avatar-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255,255,255,.5);
+    display: block;
+}
+body.light-theme .acc-avatar-img { border-color: rgba(0,0,0,.2); }
+
+.acc-avatar-edit-btn {
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.3);
+    border: 2px solid rgba(255,255,255,.6);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .6rem;
+    color: #fff;
+    transition: background .15s;
+}
+.acc-avatar-edit-btn:hover { background: rgba(255,255,255,.5); }
+
+.acc-username-display {
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.acc-online-badge {
+    display: inline-block;
+    font-size: .7rem;
+    padding: .12rem .45rem;
+    border-radius: 999px;
+    margin-top: .3rem;
+    font-weight: 600;
+    background: rgba(50,200,100,.2);
+    color: #80ffaa;
+    border: 1px solid rgba(50,200,100,.4);
+}
+body.light-theme .acc-online-badge { color: #090; background: rgba(50,200,100,.15); }
+
+.acc-hidden { display: none !important; }
+#acc-avatar-file-input { display: none; }
 </style>
 </head>
 <body>
@@ -118,9 +332,96 @@ h1 {
     <div class="setting-option" onclick="goHome()">Go to Main Page</div>
 </div>
 
-<!-- Скрытый input для загрузки фото -->
+<!-- Hidden file input for local avatar (existing feature) -->
 <input type="file" id="fileInput" accept="image/*" style="display:none" onchange="saveAvatar(event)">
 
+<!-- ══════════════════════════════════════════════
+     ACCOUNT SECTION (TalkON login / profile)
+     ══════════════════════════════════════════════ -->
+<section class="account-section" id="account-settings">
+
+  <!-- LOGGED-OUT -->
+  <div id="acc-logged-out">
+    <h2>Account</h2>
+    <div class="acc-tabs">
+      <div class="acc-tab active" id="acc-tab-login"    onclick="accShowTab('login')">Sign In</div>
+      <div class="acc-tab"        id="acc-tab-register" onclick="accShowTab('register')">Create Account</div>
+    </div>
+
+    <div class="acc-card" id="acc-login-form">
+      <div class="acc-field">
+        <label>Username</label>
+        <input type="text"     id="acc-login-user" autocomplete="username"      placeholder="your username" />
+      </div>
+      <div class="acc-field">
+        <label>Password</label>
+        <input type="password" id="acc-login-pass" autocomplete="current-password" placeholder="••••••••" />
+      </div>
+      <div class="acc-btn-row">
+        <button class="acc-btn" id="acc-login-btn" onclick="accDoLogin()">Sign In</button>
+      </div>
+      <div class="acc-alert" id="acc-login-msg"></div>
+    </div>
+
+    <div class="acc-card acc-hidden" id="acc-register-form">
+      <div class="acc-field">
+        <label>Username</label>
+        <input type="text"     id="acc-reg-user" autocomplete="username"    placeholder="choose a username" />
+      </div>
+      <div class="acc-field">
+        <label>Password</label>
+        <input type="password" id="acc-reg-pass" autocomplete="new-password" placeholder="at least 4 characters" />
+      </div>
+      <div class="acc-btn-row">
+        <button class="acc-btn" id="acc-register-btn" onclick="accDoRegister()">Create Account</button>
+      </div>
+      <div class="acc-alert" id="acc-register-msg"></div>
+    </div>
+  </div>
+
+  <!-- LOGGED-IN -->
+  <div id="acc-logged-in" class="acc-hidden">
+    <h2>Account</h2>
+
+    <div class="acc-card">
+      <div class="acc-avatar-row">
+        <div class="acc-avatar-wrap">
+          <img class="acc-avatar-img" id="acc-avatar-preview"
+               src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='rgba(255,255,255,0.2)'/%3E%3Ccircle cx='32' cy='26' r='11' fill='rgba(255,255,255,0.5)'/%3E%3Cellipse cx='32' cy='56' rx='18' ry='13' fill='rgba(255,255,255,0.5)'/%3E%3C/svg%3E"
+               alt="Avatar" />
+          <div class="acc-avatar-edit-btn" title="Change avatar"
+               onclick="document.getElementById('acc-avatar-file-input').click()">✏</div>
+        </div>
+        <div>
+          <div class="acc-username-display" id="acc-display-username">—</div>
+          <span class="acc-online-badge">● Online</span>
+        </div>
+      </div>
+      <input type="file" id="acc-avatar-file-input" accept="image/png" onchange="accUploadAvatar(this)" />
+      <div class="acc-alert" id="acc-avatar-msg"></div>
+    </div>
+
+    <div class="acc-card">
+      <div class="acc-field">
+        <label>About Me</label>
+        <textarea id="acc-bio-input" rows="3" placeholder="Tell people something about yourself…"></textarea>
+      </div>
+      <div class="acc-btn-row">
+        <button class="acc-btn" onclick="accSaveBio()">Save Bio</button>
+      </div>
+      <div class="acc-alert" id="acc-bio-msg"></div>
+    </div>
+
+    <div class="acc-card">
+      <div class="acc-btn-row">
+        <button class="acc-btn acc-btn-danger" onclick="accDoLogout()">Sign Out</button>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<script src="auth.js"></script>
 <script>
 // Cookie functions
 function setCookie(name, value, days) {
@@ -201,6 +502,143 @@ document.addEventListener('DOMContentLoaded', () => {
     if(savedTheme) applyTheme(savedTheme);
     loadAvatar();
 });
+</script>
+
+<script>
+/* ── Account Section JS ── */
+
+function accShowTab(tab) {
+    document.getElementById('acc-tab-login').classList.toggle('active', tab === 'login');
+    document.getElementById('acc-tab-register').classList.toggle('active', tab === 'register');
+    document.getElementById('acc-login-form').classList.toggle('acc-hidden', tab !== 'login');
+    document.getElementById('acc-register-form').classList.toggle('acc-hidden', tab !== 'register');
+}
+
+function accSetAlert(id, msg, type) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = msg;
+    el.className = 'acc-alert show ' + type;
+}
+function accClearAlert(id) {
+    const el = document.getElementById(id);
+    if (el) { el.className = 'acc-alert'; el.textContent = ''; }
+}
+
+function accRenderLoggedIn(username) {
+    document.getElementById('acc-logged-out').classList.add('acc-hidden');
+    document.getElementById('acc-logged-in').classList.remove('acc-hidden');
+    document.getElementById('acc-display-username').textContent = username;
+
+    const cached = (() => { try { return sessionStorage.getItem('talkon_avatar'); } catch { return null; } })();
+    if (cached) document.getElementById('acc-avatar-preview').src = 'data:image/png;base64,' + cached;
+
+    TalkONAuth.getProfile()
+        .then(p => {
+            if (p.description) document.getElementById('acc-bio-input').value = p.description;
+            if (p.avatar) document.getElementById('acc-avatar-preview').src = 'data:image/png;base64,' + p.avatar;
+        })
+        .catch(() => {});
+}
+
+function accRenderLoggedOut() {
+    document.getElementById('acc-logged-in').classList.add('acc-hidden');
+    document.getElementById('acc-logged-out').classList.remove('acc-hidden');
+}
+
+async function accDoLogin() {
+    const user = document.getElementById('acc-login-user').value.trim();
+    const pass = document.getElementById('acc-login-pass').value;
+    accClearAlert('acc-login-msg');
+    if (!user || !pass) { accSetAlert('acc-login-msg', 'Please fill in both fields.', 'err'); return; }
+    const btn = document.getElementById('acc-login-btn');
+    btn.disabled = true; btn.textContent = 'Signing in…';
+    try {
+        await TalkONAuth.login(user, pass);
+        accRenderLoggedIn(user);
+        document.getElementById('acc-login-pass').value = '';
+    } catch (err) {
+        accSetAlert('acc-login-msg', err, 'err');
+    } finally {
+        btn.disabled = false; btn.textContent = 'Sign In';
+    }
+}
+
+async function accDoRegister() {
+    const user = document.getElementById('acc-reg-user').value.trim();
+    const pass = document.getElementById('acc-reg-pass').value;
+    accClearAlert('acc-register-msg');
+    if (!user || !pass) { accSetAlert('acc-register-msg', 'Please fill in both fields.', 'err'); return; }
+    const btn = document.getElementById('acc-register-btn');
+    btn.disabled = true; btn.textContent = 'Creating…';
+    try {
+        await TalkONAuth.register(user, pass);
+        accSetAlert('acc-register-msg', 'Account created! Signing you in…', 'ok');
+        await TalkONAuth.login(user, pass);
+        accRenderLoggedIn(user);
+    } catch (err) {
+        accSetAlert('acc-register-msg', err, 'err');
+    } finally {
+        btn.disabled = false; btn.textContent = 'Create Account';
+    }
+}
+
+function accDoLogout() {
+    TalkONAuth.logout();
+    accRenderLoggedOut();
+}
+
+async function accSaveBio() {
+    const bio = document.getElementById('acc-bio-input').value.trim();
+    accClearAlert('acc-bio-msg');
+    try {
+        await TalkONAuth.setProfile(bio);
+        accSetAlert('acc-bio-msg', 'Bio saved!', 'ok');
+    } catch (err) {
+        accSetAlert('acc-bio-msg', err, 'err');
+    }
+}
+
+async function accUploadAvatar(input) {
+    const file = input.files[0];
+    if (!file) return;
+    if (file.type !== 'image/png') { accSetAlert('acc-avatar-msg', 'Only PNG files are supported.', 'err'); return; }
+    if (file.size > 192 * 1024)    { accSetAlert('acc-avatar-msg', 'Max ~192 KB PNG.', 'err'); return; }
+    accClearAlert('acc-avatar-msg');
+    try {
+        await TalkONAuth.setAvatar(file);
+        const cached = (() => { try { return sessionStorage.getItem('talkon_avatar'); } catch { return null; } })();
+        if (cached) document.getElementById('acc-avatar-preview').src = 'data:image/png;base64,' + cached;
+        accSetAlert('acc-avatar-msg', 'Avatar updated!', 'ok');
+    } catch (err) {
+        accSetAlert('acc-avatar-msg', err, 'err');
+    } finally {
+        input.value = '';
+    }
+}
+
+// Update preview when avatar arrives from server
+document.addEventListener('talkon:avatar', (e) => {
+    const preview = document.getElementById('acc-avatar-preview');
+    if (preview) preview.src = e.detail.src;
+});
+
+// Enter key support
+['acc-login-user','acc-login-pass'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('keydown', e => { if (e.key === 'Enter') accDoLogin(); });
+});
+['acc-reg-user','acc-reg-pass'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('keydown', e => { if (e.key === 'Enter') accDoRegister(); });
+});
+
+// Init state
+if (typeof TalkONAuth !== 'undefined' && TalkONAuth.isLoggedIn()) {
+    accRenderLoggedIn(TalkONAuth.getUsername());
+}
+document.addEventListener('talkon:login',  e => accRenderLoggedIn(e.detail.username));
+document.addEventListener('talkon:logout', ()  => accRenderLoggedOut());
 </script>
 
 </body>
