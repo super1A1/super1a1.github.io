@@ -1320,8 +1320,8 @@ function handlePacket(msg) {
 // ── Login / Register ──────────────────────────────────────────────────────────
 
 function getServerAddress() {
-  const host = getCookie('talkon_host') || '158.180.58.45';
-  const port = parseInt(getCookie('talkon_port')) || 8766;
+  const host = getCookie('talkon_host') || 'talkon.duckdns.org';
+  const port = parseInt(getCookie('talkon_port')) || 8765;
   return { host, port };
 }
 
