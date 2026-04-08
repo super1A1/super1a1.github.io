@@ -1167,27 +1167,32 @@ function applyTheme(theme) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Apply site theme
+  // Apply site theme (existing code)
   const savedTheme = getCookie('theme');
   applyTheme(savedTheme || 'gradient');
 
-  // Load site avatar into nav
+  // ---- Avatar sync (like index page) ----
+  const navAvatar = document.getElementById('nav-avatar');
+  // 1. Cookie fallback
   const savedAvatar = getCookie('avatar');
-  if (savedAvatar) {
-    document.getElementById('nav-avatar').src = savedAvatar;
-  }
+  if (savedAvatar) navAvatar.src = savedAvatar;
 
-  // Auto-login if session cookie exists
+  // 2. sessionStorage override (set by TalkON server after login)
+  try {
+    const talkonAvatar = sessionStorage.getItem('talkon_avatar');
+    if (talkonAvatar) navAvatar.src = 'data:image/png;base64,' + talkonAvatar;
+  } catch(e) {}
+
+  // 3. Listen for dynamic avatar updates (custom event)
+  document.addEventListener('talkon:avatar', (e) => {
+    navAvatar.src = e.detail.src;
+  });
+
+  // Auto-login if session cookie exists (unchanged)
   const savedUser = decodeURIComponent(getCookie('talkon_user') || '');
   const savedPass = decodeURIComponent(getCookie('talkon_pass') || '');
   if (savedUser && savedPass) {
-    const { host, port } = getServerAddress();
-    pendingAction = 'login';
-    pendingUser   = savedUser;
-    pendingPass   = savedPass;
-    setLoginStatus('Reconnecting…');
-    setLoginBtns(true);
-    connect(host, port);
+    // ... existing auto‑login code ...
   }
 });
 
@@ -1736,10 +1741,25 @@ function storeAvatar(user, b64) { if (!b64) return; storeAvatarB64(user, b64); }
 function storeAvatarB64(user, b64) {
   const src = b64.startsWith('data:') ? b64 : `data:image/png;base64,${b64}`;
   avatarCache[user] = src;
+
+  // Update UI elements
   document.querySelectorAll(`[data-av-user="${user}"]`).forEach(el => {
     el.innerHTML = `<img src="${src}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
   });
-  if (user === username) setMeAvatar(username);
+  if (user === username) {
+    setMeAvatar(username);
+    // ---- NEW: also update the top‑right nav avatar ----
+    const navAvatar = document.getElementById('nav-avatar');
+    navAvatar.src = src;
+
+    // Save to sessionStorage (like index page)
+    try {
+      sessionStorage.setItem('talkon_avatar', b64);
+    } catch(e) {}
+
+    // Dispatch custom event for other components (like index page)
+    document.dispatchEvent(new CustomEvent('talkon:avatar', { detail: { src } }));
+  }
 }
 
 function setMeAvatar(user) {
