@@ -1209,7 +1209,8 @@ let lastTs      = null;
 // ── WebSocket ─────────────────────────────────────────────────────────────────
 
 function connect(host, port) {
-  const url = `ws://${host}:${port}`;
+  const { scheme, host: h, port: p } = getServerAddress();
+  const url = `${scheme}://${h}:${p}`;
   ws = new WebSocket(url);
   ws.onopen  = () => { setConnDot(true); };
   ws.onclose = () => {
@@ -1320,9 +1321,11 @@ function handlePacket(msg) {
 // ── Login / Register ──────────────────────────────────────────────────────────
 
 function getServerAddress() {
-  const host = getCookie('talkon_host') || 'talkon.duckdns.org';
-  const port = parseInt(getCookie('talkon_port')) || 8765;
-  return { host, port };
+  let host = getCookie('talkon_host') || 'talkon.duckdns.org';  // remove any scheme
+  let port = parseInt(getCookie('talkon_port')) || 8765;
+  // Use secure WebSocket if page is HTTPS, otherwise plain WS
+  let scheme = (location.protocol === 'https:') ? 'wss' : 'ws';
+  return { scheme, host, port };
 }
 
 function saveSession(user, pass) {
