@@ -1167,32 +1167,35 @@ function applyTheme(theme) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Apply site theme (existing code)
+  // 1. Apply site theme
   const savedTheme = getCookie('theme');
   applyTheme(savedTheme || 'gradient');
 
-  // ---- Avatar sync (like index page) ----
+  // 2. Avatar sync (like index page)
   const navAvatar = document.getElementById('nav-avatar');
-  // 1. Cookie fallback
-  const savedAvatar = getCookie('avatar');
-  if (savedAvatar) navAvatar.src = savedAvatar;
+  if (navAvatar) {
+    const savedAvatar = getCookie('avatar');
+    if (savedAvatar) navAvatar.src = savedAvatar;
+    try {
+      const talkonAvatar = sessionStorage.getItem('talkon_avatar');
+      if (talkonAvatar) navAvatar.src = 'data:image/png;base64,' + talkonAvatar;
+    } catch(e) {}
+    document.addEventListener('talkon:avatar', (e) => {
+      if (e.detail && e.detail.src) navAvatar.src = e.detail.src;
+    });
+  }
 
-  // 2. sessionStorage override (set by TalkON server after login)
-  try {
-    const talkonAvatar = sessionStorage.getItem('talkon_avatar');
-    if (talkonAvatar) navAvatar.src = 'data:image/png;base64,' + talkonAvatar;
-  } catch(e) {}
-
-  // 3. Listen for dynamic avatar updates (custom event)
-  document.addEventListener('talkon:avatar', (e) => {
-    navAvatar.src = e.detail.src;
-  });
-
-  // Auto-login if session cookie exists (unchanged)
+  // 3. Auto-login (MUST be here, after all definitions)
   const savedUser = decodeURIComponent(getCookie('talkon_user') || '');
   const savedPass = decodeURIComponent(getCookie('talkon_pass') || '');
   if (savedUser && savedPass) {
-    // ... existing auto‑login code ...
+    const { host, port } = getServerAddress();
+    pendingAction = 'login';
+    pendingUser   = savedUser;
+    pendingPass   = savedPass;
+    setLoginStatus('Reconnecting…');
+    setLoginBtns(true);
+    connect(host, port);
   }
 });
 
