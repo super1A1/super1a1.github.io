@@ -1,0 +1,41 @@
+/*
+ * Categories: every site belongs to exactly one. `concepts` are attached to all sites of
+ * the category, so "news" finds every news site even if its description never says "news".
+ */
+MSP.data.addCategories([
+  { id: 'search',        label: 'Search Engine',             concepts: ['search'] },
+  { id: 'ai',            label: 'AI Assistant',              concepts: ['ai'] },
+  { id: 'social',        label: 'Social Network',            concepts: ['social'] },
+  { id: 'messaging',     label: 'Messaging & Calls',         concepts: ['chat'] },
+  { id: 'email',         label: 'Email',                     concepts: ['email'] },
+  { id: 'video',         label: 'Video',                     concepts: ['video'] },
+  { id: 'streaming',     label: 'Movies & TV Streaming',     concepts: ['movies', 'tv', 'streaming'] },
+  { id: 'music',         label: 'Music & Audio',             concepts: ['music'] },
+  { id: 'news',          label: 'News',                      concepts: ['news'] },
+  { id: 'shopping',      label: 'Shopping',                  concepts: ['buy'] },
+  { id: 'classifieds',   label: 'Classifieds & Marketplace', concepts: ['buy', 'sell', 'classifieds', 'used'] },
+  { id: 'auto',          label: 'Cars & Vehicles',           concepts: ['car', 'buy', 'sell', 'used'] },
+  { id: 'realestate',    label: 'Real Estate',               concepts: ['realestate', 'rent', 'buy'] },
+  { id: 'jobs',          label: 'Jobs & Freelance',          concepts: ['jobs'] },
+  { id: 'travel',        label: 'Travel',                    concepts: ['travel'] },
+  { id: 'maps',          label: 'Maps & Transport',          concepts: ['maps', 'transport'] },
+  { id: 'food',          label: 'Food & Delivery',           concepts: ['food'] },
+  { id: 'finance',       label: 'Banking & Finance',         concepts: ['finance'] },
+  { id: 'crypto',        label: 'Crypto',                    concepts: ['crypto', 'finance'] },
+  { id: 'dev',           label: 'Developer',                 concepts: ['code'] },
+  { id: 'cloud',         label: 'Cloud & Hosting',           concepts: ['cloud', 'code'] },
+  { id: 'productivity',  label: 'Productivity',              concepts: ['productivity'] },
+  { id: 'tools',         label: 'Tools & Software',          concepts: ['tools'] },
+  { id: 'design',        label: 'Design & Photos',           concepts: ['design'] },
+  { id: 'education',     label: 'Education & Research',      concepts: ['learn'] },
+  { id: 'reference',     label: 'Reference',                 concepts: ['reference'] },
+  { id: 'books',         label: 'Books & Reading',           concepts: ['books'] },
+  { id: 'entertainment', label: 'Movies, Events & Reviews',  concepts: ['movies', 'reviews'] },
+  { id: 'gaming',        label: 'Gaming',                    concepts: ['games'] },
+  { id: 'sports',        label: 'Sports',                    concepts: ['sports'] },
+  { id: 'weather',       label: 'Weather',                   concepts: ['weather'] },
+  { id: 'health',        label: 'Health & Fitness',          concepts: ['health'] },
+  { id: 'government',    label: 'Government & City',         concepts: ['government'] },
+  { id: 'security',      label: 'Security & Privacy',        concepts: ['security'] },
+  { id: 'shipping',      label: 'Shipping & Post',           concepts: ['parcel'] }
+]);

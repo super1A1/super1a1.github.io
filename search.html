@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Search Results</title>
+<title>MSP Search</title>
 <link rel="icon" type="image/x-icon" href="images/favicon.ico">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
@@ -282,6 +282,131 @@ body.light .no-results { color: rgba(0,0,0,0.6); }
         right: 15px;
     }
 }
+
+/* --- MSP 2: corrections, knowledge panel, sitelinks, video, pagination --- */
+.notice {
+    font-size: 0.95rem;
+    margin-bottom: 18px;
+    line-height: 1.6;
+}
+.notice a { color: inherit; font-weight: 600; }
+.notice .muted, .result-meta, .status { opacity: 0.7; font-size: 0.85rem; }
+.notice .muted a { font-weight: 400; }
+
+.result-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    min-width: 0;
+}
+.result-head img.favicon {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    flex: none;
+}
+.result-head .result-url {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: inherit;
+    opacity: 0.6;
+}
+.result-meta .badge {
+    display: inline-block;
+    margin-left: 4px;
+    padding: 0 7px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.15);
+    font-size: 0.75rem;
+}
+body.light .result-meta .badge { background: rgba(0,0,0,0.08); }
+
+.sitelinks {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 8px;
+}
+.sitelinks a {
+    color: inherit;
+    text-decoration: none;
+    font-size: 0.85rem;
+    padding: 4px 10px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.15);
+    transition: background 0.2s ease;
+}
+.sitelinks a:hover { background: rgba(255,255,255,0.28); text-decoration: underline; }
+.sitelinks a.deep { font-weight: 600; }
+body.light .sitelinks a { background: rgba(0,0,0,0.06); }
+body.light .sitelinks a:hover { background: rgba(0,0,0,0.12); }
+
+.result-item.video { display: flex; gap: 14px; align-items: flex-start; }
+.result-item.video .thumb {
+    width: 160px;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 6px;
+    flex: none;
+}
+.result-item.video .body { min-width: 0; }
+.result-item.direct .result-title { font-weight: 600; }
+
+.kp {
+    margin-bottom: 25px;
+    padding: 18px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.14);
+    border: 1px solid rgba(255,255,255,0.2);
+    overflow: hidden;
+}
+body.dark .kp { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.1); }
+body.light .kp { background: rgba(0,0,0,0.035); border-color: rgba(0,0,0,0.08); }
+.kp img {
+    float: right;
+    max-width: 120px;
+    max-height: 160px;
+    margin: 0 0 10px 16px;
+    border-radius: 6px;
+}
+.kp h2 { font-size: 1.3rem; font-weight: 600; margin-bottom: 2px; }
+.kp .kp-desc { opacity: 0.7; font-size: 0.9rem; margin-bottom: 10px; }
+.kp p { font-size: 0.92rem; line-height: 1.55; }
+.kp .kp-source { margin-top: 10px; font-size: 0.85rem; }
+.kp .kp-source a { color: inherit; }
+
+.pager {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 10px 0 25px;
+}
+.pager a, .pager span {
+    min-width: 36px;
+    text-align: center;
+    padding: 6px 12px;
+    border-radius: 6px;
+    color: inherit;
+    text-decoration: none;
+    background: rgba(255,255,255,0.12);
+}
+.pager a:hover { background: rgba(255,255,255,0.25); }
+.pager .current { font-weight: 700; background: rgba(255,255,255,0.3); }
+body.light .pager a, body.light .pager span { background: rgba(0,0,0,0.05); }
+body.light .pager .current { background: rgba(0,0,0,0.12); }
+
+.elsewhere { text-align: center; font-size: 0.85rem; opacity: 0.75; margin-bottom: 30px; }
+.elsewhere a { color: inherit; margin: 0 4px; }
+
+@media (max-width: 768px) {
+    .result-item.video { flex-direction: column; }
+    .result-item.video .thumb { width: 100%; }
+    .kp img { max-width: 90px; }
+}
 </style>
 </head>
 <body>
@@ -313,7 +438,34 @@ body.light .no-results { color: rgba(0,0,0,0.6); }
 </div>
 
 <script src="auth.js"></script>
-<script src="database.js"></script>
+<!-- search engine (see docs/ENGINE.md); order matters, tools/validate.js checks it -->
+<script src="config.js"></script>
+<script src="engine/core.js"></script>
+<script src="engine/text.js"></script>
+<script src="engine/query.js"></script>
+<script src="engine/index.js"></script>
+<script src="engine/providers/local.js"></script>
+<script src="engine/providers/wikipedia.js"></script>
+<script src="engine/providers/youtube.js"></script>
+<script src="engine/providers/remote.js"></script>
+<script src="engine/engine.js"></script>
+<script src="data/categories.js"></script>
+<script src="data/concepts.js"></script>
+<script src="data/places.js"></script>
+<script src="data/words.js"></script>
+<script src="data/sites/dev.js"></script>
+<script src="data/sites/finance.js"></script>
+<script src="data/sites/knowledge.js"></script>
+<script src="data/sites/leisure.js"></script>
+<script src="data/sites/life.js"></script>
+<script src="data/sites/market.js"></script>
+<script src="data/sites/media.js"></script>
+<script src="data/sites/news.js"></script>
+<script src="data/sites/search-ai.js"></script>
+<script src="data/sites/shopping.js"></script>
+<script src="data/sites/social.js"></script>
+<script src="data/sites/travel.js"></script>
+<script src="data/sites/work.js"></script>
 <script>
 
 // ---- Get cookie ----
@@ -337,7 +489,13 @@ function applyTheme(theme) {
     document.body.style.background = '';
     document.body.style.color = '';
 
-    switch(theme) {
+    const gradients = [
+        'linear-gradient(135deg, #ff7e5f, #feb47b)',
+        'linear-gradient(135deg, #6a11cb, #2575fc)',
+        'linear-gradient(135deg, #ff6a00, #ee0979)',
+        'linear-gradient(135deg, #43cea2, #185a9d)'
+    ];
+    switch (theme) {
         case 'dark':
             document.body.classList.add('dark');
             break;
@@ -347,133 +505,133 @@ function applyTheme(theme) {
         case 'gif':
             document.body.classList.add('gif');
             break;
-        case 'gradient':
-            const gradients = [
-                'linear-gradient(135deg, #ff7e5f, #feb47b)',
-                'linear-gradient(135deg, #6a11cb, #2575fc)',
-                'linear-gradient(135deg, #ff6a00, #ee0979)',
-                'linear-gradient(135deg, #43cea2, #185a9d)'
-            ];
-            const randomGradient = gradients[Math.floor(Math.random() * gradients.length)];
-            document.body.style.background = randomGradient;
-            document.body.style.color = 'white';
-            document.body.classList.add('gradient');
-            break;
         default:
-            document.body.classList.add('gradient');
-            const defaultGradients = [
-                'linear-gradient(135deg, #ff7e5f, #feb47b)',
-                'linear-gradient(135deg, #6a11cb, #2575fc)',
-                'linear-gradient(135deg, #ff6a00, #ee0979)',
-                'linear-gradient(135deg, #43cea2, #185a9d)'
-            ];
-            document.body.style.background = defaultGradients[Math.floor(Math.random() * defaultGradients.length)];
+            document.body.style.background = gradients[Math.floor(Math.random() * gradients.length)];
             document.body.style.color = 'white';
+            document.body.classList.add('gradient');
     }
 }
 
-// ---- Database ----
-const links = typeof POPULAR_SITES_DATABASE !== "undefined"
-    ? POPULAR_SITES_DATABASE
-    : [];
+// ---- Search ----
+const esc = MSP.util.escapeHtml;
+const safe = MSP.util.safeUrl;
+const engine = MSP.createEngine(window.MSP_CONFIG);
+const params = new URLSearchParams(window.location.search);
+const query = (params.get('q') || '').trim();
+const page = Math.max(1, parseInt(params.get('p'), 10) || 1);
+const exact = params.get('exact') === '1';
 
-// ---- Highlight search text ----
-function highlightTerm(text, term) {
-    if (!term) return text;
-
-    const regex = new RegExp(`(${term})`, "gi");
-    return text.replace(regex, '<span class="highlight">$1</span>');
+function searchUrl(q, p, ex) {
+    let u = '?q=' + encodeURIComponent(q);
+    if (p && p > 1) u += '&p=' + p;
+    if (ex) u += '&exact=1';
+    return u;
 }
 
-// ---- Display results ----
-function displayResults(query) {
+function favicon(url) {
+    const host = MSP.util.host(url);
+    return host ? 'https://www.google.com/s2/favicons?domain=' + encodeURIComponent(host) + '&sz=64' : 'images/favicon.ico';
+}
 
-    const resultsContainer = document.getElementById("results");
-    const resultsCount = document.getElementById("resultsCount");
+function renderNotice(set) {
+    const c = set.correction;
+    if (c) {
+        const why = c.kind === 'layout' ? ' <span class="muted">(keyboard layout)</span>' : '';
+        return '<div class="notice">Showing results for <a href="' + esc(searchUrl(c.text)) + '"><i>' + esc(c.text) + '</i></a>' + why +
+            '<br><span class="muted">Search instead for <a href="' + esc(searchUrl(c.original, 1, true)) + '">' + esc(c.original) + '</a></span></div>';
+    }
+    if (set.suggestion) {
+        return '<div class="notice">Did you mean: <a href="' + esc(searchUrl(set.suggestion)) + '"><i>' + esc(set.suggestion) + '</i></a>?</div>';
+    }
+    return '';
+}
 
-    if (!query.trim()) {
-        resultsContainer.innerHTML =
-            '<div class="no-results">Enter a search term.</div>';
-        resultsCount.textContent = "";
+function renderPanel(p) {
+    if (!p) return '';
+    return '<div class="kp">' +
+        (p.thumbnail ? '<img src="' + esc(safe(p.thumbnail)) + '" alt="" loading="lazy">' : '') +
+        '<h2>' + esc(p.title) + '</h2>' +
+        (p.description ? '<div class="kp-desc">' + esc(p.description) + '</div>' : '') +
+        '<p>' + esc(p.extract) + '</p>' +
+        '<div class="kp-source"><a href="' + esc(safe(p.url)) + '" target="_blank" rel="noopener noreferrer">' + esc(p.source) + '</a></div>' +
+        '</div>';
+}
+
+function renderMeta(r) {
+    const parts = [];
+    if (r.categoryLabel) parts.push(esc(r.categoryLabel));
+    if (r.geoLabel) parts.push(esc(r.geoLabel));
+    if (r.meta) parts.push(esc(r.meta));
+    return parts.length ? '<div class="result-meta">' + parts.join(' · ') + '</div>' : '';
+}
+
+function renderSitelinks(r) {
+    if (!r.sitelinks || !r.sitelinks.length) return '';
+    return '<div class="sitelinks">' + r.sitelinks.map(s =>
+        '<a href="' + esc(safe(s.url)) + '" target="_blank" rel="noopener noreferrer"' + (s.kind === 'search' ? ' class="deep"' : '') + '>' +
+        esc(s.title) + '</a>').join('') + '</div>';
+}
+
+function renderResult(r, terms) {
+    const url = esc(safe(r.url));
+    const link = '<a href="' + url + '" target="_blank" rel="noopener noreferrer" class="result-title">' + MSP.text.highlight(r.title, terms) + '</a>';
+    const head = '<div class="result-head"><img class="favicon" src="' + esc(favicon(r.url)) + '" alt="" loading="lazy">' +
+        '<div style="min-width:0"><a class="result-url" href="' + url + '" target="_blank" rel="noopener noreferrer">' +
+        esc(MSP.util.displayUrl(r.url)) + '</a>' + renderMeta(r) + '</div></div>';
+    const snippet = r.snippet ? '<div class="result-description">' + MSP.text.highlight(r.snippet, terms) + '</div>' : '';
+
+    if (r.kind === 'video') {
+        return '<div class="result-item video">' +
+            (r.thumbnail ? '<a href="' + url + '" target="_blank" rel="noopener noreferrer"><img class="thumb" src="' + esc(safe(r.thumbnail)) + '" alt="" loading="lazy"></a>' : '') +
+            '<div class="body">' + head + link + snippet + '</div></div>';
+    }
+    return '<div class="result-item ' + esc(r.kind) + '">' + head + link + snippet + renderSitelinks(r) + '</div>';
+}
+
+function renderPager(set) {
+    if (set.pageCount <= 1) return '';
+    const p = set.page, n = set.pageCount;
+    const out = [];
+    if (p > 1) out.push('<a href="' + esc(searchUrl(query, p - 1, exact)) + '">‹ Prev</a>');
+    for (let i = Math.max(1, p - 4); i <= Math.min(n, p + 4); i++) {
+        out.push(i === p ? '<span class="current">' + i + '</span>' : '<a href="' + esc(searchUrl(query, i, exact)) + '">' + i + '</a>');
+    }
+    if (p < n) out.push('<a href="' + esc(searchUrl(query, p + 1, exact)) + '">Next ›</a>');
+    return '<div class="pager">' + out.join('') + '</div>';
+}
+
+function renderElsewhere(q) {
+    const e = encodeURIComponent(q);
+    const engines = [
+        ['Google', 'https://www.google.com/search?q=' + e],
+        ['DuckDuckGo', 'https://duckduckgo.com/?q=' + e],
+        ['Bing', 'https://www.bing.com/search?q=' + e],
+        ['Yandex', 'https://yandex.ru/search/?text=' + e]
+    ];
+    return '<div class="elsewhere">Search the whole web: ' +
+        engines.map(x => '<a href="' + esc(x[1]) + '" target="_blank" rel="noopener noreferrer">' + x[0] + '</a>').join(' · ') + '</div>';
+}
+
+const SOURCE_NAMES = { wikipedia: 'Wikipedia', youtube: 'YouTube', remote: 'server' };
+
+function render(set) {
+    const box = document.getElementById('results');
+    const count = document.getElementById('resultsCount');
+    const pending = set.pending.map(s => SOURCE_NAMES[s] || s);
+    const status = pending.length ? ' <span class="status">· searching ' + esc(pending.join(', ')) + '…</span>' : '';
+
+    if (!set.results.length && !set.panel) {
+        count.innerHTML = status;
+        box.innerHTML = renderNotice(set) + (pending.length ? '' :
+            '<div class="no-results">No results found for "<strong>' + esc(set.query) + '</strong>"</div>') +
+            renderElsewhere(set.effectiveQuery || set.query);
         return;
     }
-
-    const q = query.toLowerCase();
-
-    const filtered = links.filter(link => {
-
-        const title = (link.title || "").toLowerCase();
-        const desc = (link.description || "").toLowerCase();
-        const url = (link.url || "").toLowerCase();
-        const type = (link.type || "").toLowerCase();
-
-        return (
-            title.includes(q) ||
-            desc.includes(q) ||
-            url.includes(q) ||
-            type.includes(q)
-        );
-
-    });
-
-    // Sort alphabetically
-    filtered.sort((a, b) =>
-        (a.title || "").localeCompare(b.title || "")
-    );
-
-    if (filtered.length === 0) {
-
-        resultsContainer.innerHTML =
-            `<div class="no-results">
-                No results found for "<strong>${query}</strong>"
-             </div>`;
-
-        resultsCount.textContent = "";
-        return;
-    }
-
-    resultsCount.textContent =
-        `About ${filtered.length} result${filtered.length > 1 ? "s" : ""} for "${query}"`;
-
-    resultsContainer.innerHTML = filtered.map(link => {
-
-        let hostname = "";
-        try {
-            hostname = new URL(link.url).hostname;
-        } catch {
-            hostname = "";
-        }
-
-        return `
-        <div class="result-item">
-
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
-
-                <img src="https://www.google.com/s2/favicons?domain=${hostname}&sz=64"
-                     style="width:20px;height:20px;border-radius:4px;">
-
-                <div>
-                    <div class="result-url">${link.url || ""}</div>
-                    <div style="font-size:0.85rem;opacity:0.6;">
-                        ${link.type || ""}
-                    </div>
-                </div>
-
-            </div>
-
-            <a href="${link.url}" target="_blank" class="result-title">
-                ${highlightTerm(link.title || "", query)}
-            </a>
-
-            <div class="result-description">
-                ${highlightTerm(link.description || "", query)}
-            </div>
-
-        </div>
-        `;
-
-    }).join("");
-
+    count.innerHTML = 'About ' + set.total + ' result' + (set.total === 1 ? '' : 's') +
+        ' (' + (set.timeMs / 1000).toFixed(2) + ' s)' + status;
+    box.innerHTML = renderNotice(set) + (set.page === 1 ? renderPanel(set.panel) : '') +
+        set.results.map(r => renderResult(r, set.highlight)).join('') +
+        renderPager(set) + (set.page === set.pageCount ? renderElsewhere(set.effectiveQuery || set.query) : '');
 }
 
 // ---- Page load ----
@@ -501,13 +659,20 @@ document.addEventListener("DOMContentLoaded", () => {
         if (avatar) avatar.src = e.detail.src;
     });
 
-    const params = new URLSearchParams(window.location.search);
-    const query = params.get("q") || "";
-
     document.getElementById("headerSearch").value = query;
 
-    displayResults(query);
-
+    if (!query) {
+        document.getElementById('results').innerHTML = '<div class="no-results">Enter a search term.</div>';
+        return;
+    }
+    document.title = query + ' - MSP Search';
+    engine.search(query, { page, exact, onUpdate: render })
+        .then(render)
+        .catch(err => {
+            console.error(err);
+            document.getElementById('results').innerHTML =
+                '<div class="no-results">Search failed: ' + esc(err && err.message || err) + '</div>' + renderElsewhere(query);
+        });
 });
 
 </script>

@@ -1,0 +1,97 @@
+/* Cars, real estate, jobs and freelance. Regional coverage matters here: "buy auto Berlin"
+   should surface German car markets, "квартиры москва" Russian property portals. */
+MSP.data.addSites('auto', [
+  /* ---------- Germany & Europe ---------- */
+  { title: 'mobile.de', url: 'https://www.mobile.de', rank: 80, geo: 'DE', aliases: 'mobile de, мобиле де', tags: 'gebrauchtwagen, used cars, car market, autokauf, neuwagen', desc: 'Germany\'s largest vehicle market: used and new cars, motorbikes, vans.' },
+  { title: 'AutoScout24', url: 'https://www.autoscout24.de', rank: 75, geo: 'DE AT IT NL BE FR ES', aliases: 'autoscout, auto scout, autoscout 24', tags: 'gebrauchtwagen, used cars, car market', desc: 'Pan-European car marketplace for used and new cars.' },
+  { title: 'Autohero', url: 'https://www.autohero.com', rank: 45, geo: 'DE AT FR ES IT', tags: 'used cars online, gebrauchtwagen, home delivery', desc: 'Buy inspected used cars online with delivery.' },
+  { title: 'AutoUncle', url: 'https://www.autouncle.de', rank: 35, geo: 'DE', tags: 'car price comparison, gebrauchtwagen', desc: 'Compares used car prices across German dealers.' },
+  { title: 'ADAC', url: 'https://www.adac.de', rank: 60, geo: 'DE', tags: 'car club, breakdown, car tests, autotest', desc: 'German automobile club: breakdown help, car tests and travel.' },
+  { title: 'La Centrale', url: 'https://www.lacentrale.fr', rank: 50, geo: 'FR', tags: 'used cars, voiture occasion', desc: 'French used car marketplace.' },
+  /* ---------- UK ---------- */
+  { title: 'Auto Trader UK', url: 'https://www.autotrader.co.uk', rank: 65, geo: 'GB', aliases: 'autotrader uk', tags: 'used cars, new cars', desc: 'The UK\'s largest car marketplace.' },
+  { title: 'carwow', url: 'https://www.carwow.co.uk', rank: 50, geo: 'GB', tags: 'new cars, car deals, sell car', desc: 'Compare new car deals and sell your car.' },
+  { title: 'Motors.co.uk', url: 'https://www.motors.co.uk', rank: 40, geo: 'GB', aliases: 'motors', tags: 'used cars', desc: 'UK used car search.' },
+  /* ---------- United States ---------- */
+  { title: 'Cars.com', url: 'https://www.cars.com', rank: 65, geo: 'US', tags: 'used cars, new cars, car dealers', desc: 'US car listings, dealers and reviews.' },
+  { title: 'Autotrader', url: 'https://www.autotrader.com', rank: 65, geo: 'US', tags: 'used cars, new cars', desc: 'US used and new car listings.' },
+  { title: 'CarGurus', url: 'https://www.cargurus.com', rank: 60, geo: 'US', tags: 'used cars, car deals', desc: 'Car listings rated by deal quality.' },
+  { title: 'Carvana', url: 'https://www.carvana.com', rank: 55, geo: 'US', tags: 'buy car online, sell car', desc: 'Buy and sell cars online with delivery.' },
+  { title: 'CarMax', url: 'https://www.carmax.com', rank: 55, geo: 'US', tags: 'used cars', desc: 'Used car retailer.' },
+  { title: 'Kelley Blue Book', url: 'https://www.kbb.com', rank: 55, geo: 'US', aliases: 'kbb', tags: 'car values, car prices', desc: 'Car values, prices and reviews.' },
+  { title: 'Edmunds', url: 'https://www.edmunds.com', rank: 50, geo: 'US', tags: 'car reviews, car prices', desc: 'Car reviews, prices and listings.' },
+  { title: 'Carfax', url: 'https://www.carfax.com', rank: 45, geo: 'US', tags: 'vehicle history, vin check', desc: 'Vehicle history reports.' },
+  { title: 'Bring a Trailer', url: 'https://bringatrailer.com', rank: 40, geo: 'US', tags: 'classic cars, auctions', desc: 'Online auctions for classic and enthusiast cars.' },
+  { title: 'Turo', url: 'https://turo.com', rank: 40, geo: 'US GB CA AU', tags: 'car rental, rent a car', desc: 'Peer-to-peer car rental.' },
+  /* ---------- Russia, Türkiye, others ---------- */
+  { title: 'Auto.ru', url: 'https://auto.ru', rank: 75, geo: 'RU', aliases: 'авто ру, авто.ру, autoru', tags: 'used cars, автомобили с пробегом, new cars', desc: 'Russia\'s largest car marketplace.' },
+  { title: 'Drom.ru', url: 'https://www.drom.ru', rank: 65, geo: 'RU', aliases: 'дром, drom', tags: 'used cars, автомобили', desc: 'Russian car marketplace and reviews.' },
+  { title: 'Drive2', url: 'https://www.drive2.ru', rank: 45, geo: 'RU', aliases: 'драйв2, драйв 2', tags: 'car community, car blogs', desc: 'Russian car enthusiast community.' },
+  { title: 'arabam.com', url: 'https://www.arabam.com', rank: 70, geo: 'TR', aliases: 'arabam', tags: 'satılık araba, ikinci el araba, used cars', desc: 'Turkish car marketplace for new and used cars.' },
+  { title: 'Kolesa.kz', url: 'https://kolesa.kz', rank: 40, geo: 'KZ', aliases: 'колеса', tags: 'used cars', desc: 'Kazakhstan car marketplace.' },
+  /* ---------- information ---------- */
+  { title: 'Top Gear', url: 'https://www.topgear.com', rank: 45, tags: 'car reviews, cars news', desc: 'Car reviews and news.' },
+  { title: 'Motor1', url: 'https://www.motor1.com', rank: 40, tags: 'car news, car reviews', desc: 'Automotive news and reviews.' }
+]);
+
+MSP.data.addSites('realestate', [
+  { title: 'Zillow', url: 'https://www.zillow.com', rank: 75, geo: 'US', tags: 'homes for sale, apartments for rent, house prices', desc: 'US homes for sale, rentals and Zestimates.' },
+  { title: 'Realtor.com', url: 'https://www.realtor.com', rank: 60, geo: 'US', aliases: 'realtor', tags: 'homes for sale', desc: 'US homes for sale and rent.' },
+  { title: 'Redfin', url: 'https://www.redfin.com', rank: 55, geo: 'US', tags: 'homes for sale, real estate agents', desc: 'US real estate brokerage and listings.' },
+  { title: 'Apartments.com', url: 'https://www.apartments.com', rank: 55, geo: 'US', tags: 'apartments for rent', desc: 'US apartment rentals.' },
+  { title: 'StreetEasy', url: 'https://streeteasy.com', rank: 55, geo: 'US-NY-NYC', aliases: 'street easy', tags: 'nyc apartments, rentals', desc: 'New York City apartments for rent and sale.' },
+  { title: 'Trulia', url: 'https://www.trulia.com', rank: 40, geo: 'US', tags: 'homes for sale, neighborhoods', desc: 'US homes and neighborhood insights.' },
+  { title: 'Rightmove', url: 'https://www.rightmove.co.uk', rank: 70, geo: 'GB', tags: 'property for sale, to rent', desc: 'UK\'s largest property portal.' },
+  { title: 'Zoopla', url: 'https://www.zoopla.co.uk', rank: 60, geo: 'GB', tags: 'property for sale, to rent, house prices', desc: 'UK property search and valuations.' },
+  { title: 'SpareRoom', url: 'https://www.spareroom.co.uk', rank: 45, geo: 'GB', tags: 'flatshare, rooms to rent', desc: 'UK flatshares and rooms.' },
+  { title: 'ImmobilienScout24', url: 'https://www.immobilienscout24.de', rank: 70, geo: 'DE', aliases: 'immoscout, immoscout24, immobilienscout', tags: 'wohnung mieten, haus kaufen, apartments', desc: 'Germany\'s largest property portal: rent and buy.' },
+  { title: 'Immowelt', url: 'https://www.immowelt.de', rank: 55, geo: 'DE', tags: 'wohnung mieten, haus kaufen', desc: 'German property portal.' },
+  { title: 'WG-Gesucht', url: 'https://www.wg-gesucht.de', rank: 55, geo: 'DE', aliases: 'wg gesucht', tags: 'shared flats, rooms, wg zimmer', desc: 'Shared flats and rooms in Germany.' },
+  { title: 'CIAN', url: 'https://www.cian.ru', rank: 70, geo: 'RU', aliases: 'циан', tags: 'квартиры, apartments, новостройки', desc: 'Russia\'s largest property portal: rent and buy flats.' },
+  { title: 'DomClick', url: 'https://domclick.ru', rank: 55, geo: 'RU', aliases: 'домклик', tags: 'mortgage, ипотека, квартиры', desc: 'Sber\'s property and mortgage service.' },
+  { title: 'Hepsiemlak', url: 'https://www.hepsiemlak.com', rank: 55, geo: 'TR', tags: 'satılık daire, kiralık daire', desc: 'Turkish property portal.' },
+  { title: 'Emlakjet', url: 'https://www.emlakjet.com', rank: 50, geo: 'TR', tags: 'satılık daire, kiralık daire', desc: 'Turkish property portal.' },
+  { title: 'SeLoger', url: 'https://www.seloger.com', rank: 50, geo: 'FR', tags: 'appartement, immobilier', desc: 'French property portal.' },
+  { title: 'idealista', url: 'https://www.idealista.com', rank: 55, geo: 'ES IT PT', tags: 'pisos, apartments', desc: 'Property portal for Spain, Italy and Portugal.' },
+  { title: 'Funda', url: 'https://www.funda.nl', rank: 50, geo: 'NL', desc: 'Dutch property portal.' },
+  { title: 'Bayut', url: 'https://www.bayut.com', rank: 40, geo: 'AE', desc: 'UAE property portal.' },
+  { title: 'Property Finder', url: 'https://www.propertyfinder.ae', rank: 40, geo: 'AE', desc: 'UAE property portal.' }
+]);
+
+MSP.data.addSites('jobs', [
+  { title: 'Indeed', url: 'https://www.indeed.com', rank: 80, tags: 'job search, vacancies', desc: 'World\'s largest job site.', search: 'https://www.indeed.com/jobs?q={q}' },
+  { title: 'Glassdoor', url: 'https://www.glassdoor.com', rank: 60, tags: 'salaries, company reviews', desc: 'Jobs, salaries and company reviews.' },
+  { title: 'ZipRecruiter', url: 'https://www.ziprecruiter.com', rank: 45, geo: 'US', desc: 'US job search.' },
+  { title: 'Monster', url: 'https://www.monster.com', rank: 40, geo: 'US', desc: 'US job search.' },
+  { title: 'Dice', url: 'https://www.dice.com', rank: 35, geo: 'US', tags: 'tech jobs, it jobs', desc: 'US tech job board.' },
+  { title: 'USAJOBS', url: 'https://www.usajobs.gov', rank: 40, geo: 'US', tags: 'government jobs', desc: 'US federal government jobs.' },
+  { title: 'Wellfound', url: 'https://wellfound.com', rank: 40, aliases: 'angellist', tags: 'startup jobs', desc: 'Startup jobs.' },
+  { title: 'We Work Remotely', url: 'https://weworkremotely.com', rank: 40, tags: 'remote jobs', desc: 'Remote job board.' },
+  { title: 'Remote OK', url: 'https://remoteok.com', rank: 35, tags: 'remote jobs', desc: 'Remote jobs.' },
+  { title: 'Upwork', url: 'https://www.upwork.com', rank: 65, tags: 'freelance, remote work', desc: 'Freelance marketplace.' },
+  { title: 'Fiverr', url: 'https://www.fiverr.com', rank: 65, tags: 'freelance, gigs', desc: 'Freelance services marketplace.' },
+  { title: 'Freelancer', url: 'https://www.freelancer.com', rank: 45, tags: 'freelance', desc: 'Freelance jobs and projects.' },
+  { title: 'Toptal', url: 'https://www.toptal.com', rank: 35, tags: 'freelance, developers', desc: 'Network of freelance developers and designers.' },
+  { title: 'Jooble', url: 'https://jooble.org', rank: 40, tags: 'job search', desc: 'Job search aggregator in many countries.' },
+  { title: 'Reed', url: 'https://www.reed.co.uk', rank: 45, geo: 'GB', desc: 'UK job site.' },
+  { title: 'Totaljobs', url: 'https://www.totaljobs.com', rank: 40, geo: 'GB', desc: 'UK job site.' },
+  { title: 'StepStone', url: 'https://www.stepstone.de', rank: 60, geo: 'DE', tags: 'stellenangebote', desc: 'German job portal.', search: 'https://www.stepstone.de/jobs/{q}' },
+  { title: 'XING', url: 'https://www.xing.com', rank: 50, geo: 'DE AT CH', tags: 'professional network, stellenangebote', desc: 'German-speaking professional network and jobs.' },
+  { title: 'Jobbörse (Arbeitsagentur)', url: 'https://www.arbeitsagentur.de/jobsuche/', rank: 50, geo: 'DE', aliases: 'arbeitsagentur, jobbörse, agentur für arbeit', tags: 'stellenangebote', desc: 'German Federal Employment Agency job search.' },
+  { title: 'Berlin Startup Jobs', url: 'https://berlinstartupjobs.com', rank: 35, geo: 'DE-BE', tags: 'startup jobs, it jobs', desc: 'Jobs at Berlin startups.' },
+  { title: 'hh.ru', url: 'https://hh.ru', rank: 85, geo: 'RU', aliases: 'хедхантер, headhunter, хх, hh', tags: 'вакансии, резюме', desc: 'Russia\'s largest job site.', search: 'https://hh.ru/search/vacancy?text={q}' },
+  { title: 'SuperJob', url: 'https://www.superjob.ru', rank: 50, geo: 'RU', aliases: 'суперджоб', tags: 'вакансии', desc: 'Russian job site.' },
+  { title: 'Habr Career', url: 'https://career.habr.com', rank: 45, geo: 'RU', aliases: 'хабр карьера', tags: 'it jobs, developer jobs', desc: 'IT jobs in Russia.' },
+  { title: 'Trudvsem', url: 'https://trudvsem.ru', rank: 35, geo: 'RU', aliases: 'работа в россии, трудвсем', tags: 'government jobs, вакансии', desc: 'Russian state job portal.' },
+  { title: 'Kwork', url: 'https://kwork.ru', rank: 40, geo: 'RU', aliases: 'кворк', tags: 'freelance, фриланс', desc: 'Russian freelance marketplace.' },
+  { title: 'FL.ru', url: 'https://www.fl.ru', rank: 35, geo: 'RU', tags: 'freelance, фриланс', desc: 'Russian freelance exchange.' },
+  { title: 'Kariyer.net', url: 'https://www.kariyer.net', rank: 70, geo: 'TR', aliases: 'kariyer net', tags: 'iş ilanları, job search', desc: 'Türkiye\'s largest job site.' },
+  { title: 'Secretcv', url: 'https://www.secretcv.com', rank: 40, geo: 'TR', tags: 'iş ilanları', desc: 'Turkish job site.' },
+  { title: 'Yenibiriş', url: 'https://www.yenibiris.com', rank: 40, geo: 'TR', aliases: 'yenibiris', tags: 'iş ilanları', desc: 'Turkish job site.' },
+  { title: 'Eleman.net', url: 'https://www.eleman.net', rank: 40, geo: 'TR', tags: 'iş ilanları', desc: 'Turkish job site.' },
+  { title: 'İŞKUR', url: 'https://www.iskur.gov.tr', rank: 40, geo: 'TR', aliases: 'iskur', tags: 'government jobs, iş ilanları', desc: 'Turkish Employment Agency.' },
+  { title: 'Bionluk', url: 'https://bionluk.com', rank: 30, geo: 'TR', tags: 'freelance', desc: 'Turkish freelance marketplace.' },
+  { title: 'Work.ua', url: 'https://www.work.ua', rank: 45, geo: 'UA', tags: 'вакансии', desc: 'Ukrainian job site.' },
+  { title: 'Djinni', url: 'https://djinni.co', rank: 40, geo: 'UA', tags: 'it jobs', desc: 'Ukrainian IT job board.' },
+  { title: 'Welcome to the Jungle', url: 'https://www.welcometothejungle.com', rank: 40, geo: 'FR', tags: 'startup jobs', desc: 'Jobs and company profiles.' }
+]);

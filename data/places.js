@@ -1,0 +1,135 @@
+/*
+ * Gazetteer. Codes are hierarchical by prefix: US > US-NY > US-NY-NYC, DE > DE-BE.
+ * A site tagged US-NY-NYC therefore matches queries for "NYC", "New York state" and "USA".
+ *
+ *   names  comma list, case-insensitive (all languages, demonyms, short forms)
+ *   cs     comma list, case-SENSITIVE aliases (only when typed exactly like that: "US", "LA")
+ *
+ * Deliberately missing: "IT" (information technology), "georgia" (country vs US state).
+ */
+MSP.data.addPlaces([
+  /* ---------- countries ---------- */
+  { code: 'US', name: 'United States', cs: 'US, USA',
+    names: 'united states, usa, us, america, american, сша, америка, американские, американский, abd, amerika, amerikan, vereinigte staaten, amerikanisch' },
+  { code: 'GB', name: 'United Kingdom', cs: 'UK, GB',
+    names: 'united kingdom, uk, britain, great britain, british, england, великобритания, британия, англия, британские, ingiltere, birleşik krallık, großbritannien, england' },
+  { code: 'DE', name: 'Germany', cs: 'DE',
+    names: 'germany, german, deutschland, deutsch, deutsche, германия, немецкие, немецкий, almanya, alman' },
+  { code: 'AT', name: 'Austria', names: 'austria, austrian, österreich, австрия, avusturya' },
+  { code: 'CH', name: 'Switzerland', names: 'switzerland, swiss, schweiz, швейцария, isviçre' },
+  { code: 'FR', name: 'France', cs: 'FR', names: 'france, french, français, франция, французские, fransa, frankreich' },
+  { code: 'IT', name: 'Italy', names: 'italy, italian, italia, италия, italya, italien' },
+  { code: 'ES', name: 'Spain', names: 'spain, spanish, españa, испания, ispanya, spanien' },
+  { code: 'PT', name: 'Portugal', names: 'portugal, португалия, portekiz' },
+  { code: 'NL', name: 'Netherlands', cs: 'NL', names: 'netherlands, holland, dutch, нидерланды, голландия, hollanda, niederlande' },
+  { code: 'BE', name: 'Belgium', names: 'belgium, бельгия, belçika, belgien' },
+  { code: 'PL', name: 'Poland', names: 'poland, polish, polska, польша, polonya, polen' },
+  { code: 'CZ', name: 'Czechia', names: 'czechia, czech republic, чехия, çekya, tschechien' },
+  { code: 'SE', name: 'Sweden', names: 'sweden, швеция, isveç, schweden' },
+  { code: 'FI', name: 'Finland', names: 'finland, финляндия, finlandiya, finnland' },
+  { code: 'DK', name: 'Denmark', names: 'denmark, дания, danimarka, dänemark' },
+  { code: 'IE', name: 'Ireland', names: 'ireland, irish, ирландия, irlanda, irland' },
+  { code: 'GR', name: 'Greece', names: 'greece, greek, греция, yunanistan, griechenland' },
+  { code: 'RU', name: 'Russia', cs: 'RU, РФ',
+    names: 'russia, russian, ru, россия, рф, российские, российский, русские, русский, rusya, rus, russland, russisch' },
+  { code: 'UA', name: 'Ukraine', cs: 'UA', names: 'ukraine, ukrainian, украина, украинские, україна, ukrayna' },
+  { code: 'BY', name: 'Belarus', names: 'belarus, беларусь, белоруссия' },
+  { code: 'KZ', name: 'Kazakhstan', cs: 'KZ', names: 'kazakhstan, казахстан, kazakistan, kasachstan' },
+  { code: 'UZ', name: 'Uzbekistan', names: 'uzbekistan, узбекистан, özbekistan' },
+  { code: 'AZ', name: 'Azerbaijan', names: 'azerbaijan, азербайджан, azerbaycan' },
+  { code: 'GE', name: 'Georgia', names: 'грузия, gürcistan, sakartvelo' },
+  { code: 'TR', name: 'Türkiye', cs: 'TR',
+    names: 'turkey, türkiye, turkish, tr, турция, турецкие, турецкий, türk, türkei, türkisch' },
+  { code: 'CY', name: 'Cyprus', names: 'cyprus, кипр, kıbrıs, zypern' },
+  { code: 'IL', name: 'Israel', names: 'israel, израиль, israil' },
+  { code: 'AE', name: 'United Arab Emirates', cs: 'UAE', names: 'uae, united arab emirates, emirates, оаэ, эмираты, bae, birleşik arap emirlikleri' },
+  { code: 'EG', name: 'Egypt', names: 'egypt, египет, mısır, ägypten' },
+  { code: 'IN', name: 'India', cs: 'IN', names: 'india, indian, индия, hindistan, indien' },
+  { code: 'CN', name: 'China', names: 'china, chinese, китай, çin' },
+  { code: 'JP', name: 'Japan', names: 'japan, japanese, япония, japonya' },
+  { code: 'KR', name: 'South Korea', names: 'south korea, korea, korean, корея, güney kore, südkorea' },
+  { code: 'AU', name: 'Australia', cs: 'AU', names: 'australia, australian, австралия, avustralya, australien' },
+  { code: 'CA', name: 'Canada', names: 'canada, canadian, канада, kanada' },
+  { code: 'MX', name: 'Mexico', names: 'mexico, мексика, meksika, mexiko' },
+  { code: 'BR', name: 'Brazil', names: 'brazil, brasil, бразилия, brezilya, brasilien' },
+
+  /* ---------- United States ---------- */
+  { code: 'US-NY', name: 'New York State', names: 'new york state, nys, upstate new york, штат нью-йорк' },
+  // "NY" alone almost always means the city; state-wide sites still match via 'contains'.
+  { code: 'US-NY-NYC', name: 'New York City', cs: 'NY',
+    names: 'ny, new york, new york city, nyc, manhattan, brooklyn, queens, bronx, staten island, нью-йорк, нью йорк, ньюйорк, нью-йорке' },
+  { code: 'US-CA', name: 'California', names: 'california, калифорния, kaliforniya, kalifornien' },
+  { code: 'US-CA-LA', name: 'Los Angeles', cs: 'LA', names: 'los angeles, лос-анджелес, лос анджелес' },
+  { code: 'US-CA-SF', name: 'San Francisco', cs: 'SF', names: 'san francisco, bay area, сан-франциско, сан франциско' },
+  { code: 'US-IL-CHI', name: 'Chicago', names: 'chicago, чикаго, şikago' },
+  { code: 'US-MA-BOS', name: 'Boston', names: 'boston, бостон' },
+  { code: 'US-WA-SEA', name: 'Seattle', names: 'seattle, сиэтл' },
+  { code: 'US-FL-MIA', name: 'Miami', names: 'miami, майами' },
+  { code: 'US-TX', name: 'Texas', names: 'texas, техас, teksas' },
+  { code: 'US-TX-HOU', name: 'Houston', names: 'houston, хьюстон' },
+  { code: 'US-DC', name: 'Washington, D.C.', cs: 'DC', names: 'washington dc, washington d c, вашингтон' },
+  { code: 'US-NV-LV', name: 'Las Vegas', names: 'las vegas, лас-вегас, лас вегас' },
+
+  /* ---------- United Kingdom ---------- */
+  { code: 'GB-LND', name: 'London', names: 'london, лондон, londra, londres' },
+  { code: 'GB-MAN', name: 'Manchester', names: 'manchester, манчестер' },
+  { code: 'GB-EDH', name: 'Edinburgh', names: 'edinburgh, эдинбург' },
+
+  /* ---------- Germany ---------- */
+  { code: 'DE-BE', name: 'Berlin', names: 'berlin, берлин, berliner, berlinde' },
+  { code: 'DE-HH', name: 'Hamburg', names: 'hamburg, гамбург' },
+  { code: 'DE-BY', name: 'Bavaria', names: 'bavaria, bayern, бавария' },
+  { code: 'DE-BY-MUC', name: 'Munich', names: 'munich, münchen, мюнхен, münih' },
+  { code: 'DE-NW-CGN', name: 'Cologne', names: 'cologne, köln, кельн' },
+  { code: 'DE-NW-DUS', name: 'Düsseldorf', names: 'düsseldorf, дюссельдорф' },
+  { code: 'DE-HE-FRA', name: 'Frankfurt', names: 'frankfurt, франкфурт' },
+  { code: 'DE-BW-STR', name: 'Stuttgart', names: 'stuttgart, штутгарт' },
+
+  /* ---------- Russia ---------- */
+  { code: 'RU-MOW', name: 'Moscow', names: 'moscow, москва, москве, москвы, moskva, moskau, moskova, мск' },
+  { code: 'RU-SPE', name: 'Saint Petersburg',
+    names: 'saint petersburg, st petersburg, petersburg, санкт-петербург, петербург, питер, спб, spb, sankt-peterburg' },
+  { code: 'RU-NVS', name: 'Novosibirsk', names: 'novosibirsk, новосибирск' },
+  { code: 'RU-EKB', name: 'Yekaterinburg', names: 'yekaterinburg, ekaterinburg, екатеринбург, екб' },
+  { code: 'RU-KZN', name: 'Kazan', names: 'kazan, казань' },
+  { code: 'RU-KDA', name: 'Krasnodar', names: 'krasnodar, краснодар' },
+  { code: 'RU-NIZ', name: 'Nizhny Novgorod', names: 'nizhny novgorod, нижний новгород' },
+  { code: 'RU-SOC', name: 'Sochi', names: 'sochi, сочи' },
+
+  /* ---------- Türkiye (plate codes) ---------- */
+  { code: 'TR-34', name: 'Istanbul', names: 'istanbul, стамбул, istanbulda, constantinople' },
+  { code: 'TR-06', name: 'Ankara', names: 'ankara, анкара' },
+  { code: 'TR-35', name: 'Izmir', names: 'izmir, измир' },
+  { code: 'TR-07', name: 'Antalya',
+    names: 'antalya, анталья, анталия, alanya, аланья, manavgat, манавгат, kemer, кемер, belek, белек' },
+  { code: 'TR-16', name: 'Bursa', names: 'bursa, бурса' },
+  { code: 'TR-48', name: 'Muğla', names: 'muğla, bodrum, бодрум, marmaris, мармарис, fethiye, фетхие' },
+
+  /* ---------- other cities ---------- */
+  { code: 'UA-KYV', name: 'Kyiv', names: 'kyiv, kiev, киев, київ' },
+  { code: 'BY-MSQ', name: 'Minsk', names: 'minsk, минск' },
+  { code: 'KZ-ALA', name: 'Almaty', names: 'almaty, алматы, алма-ата' },
+  { code: 'KZ-AST', name: 'Astana', names: 'astana, астана' },
+  { code: 'FR-PAR', name: 'Paris', names: 'paris, париж' },
+  { code: 'IT-ROM', name: 'Rome', names: 'rome, roma, рим' },
+  { code: 'IT-MIL', name: 'Milan', names: 'milan, milano, милан' },
+  { code: 'ES-MAD', name: 'Madrid', names: 'madrid, мадрид' },
+  { code: 'ES-BCN', name: 'Barcelona', names: 'barcelona, барселона' },
+  { code: 'NL-AMS', name: 'Amsterdam', names: 'amsterdam, амстердам' },
+  { code: 'AT-VIE', name: 'Vienna', names: 'vienna, wien, вена, viyana' },
+  { code: 'PL-WAW', name: 'Warsaw', names: 'warsaw, warszawa, варшава, varşova' },
+  { code: 'CZ-PRG', name: 'Prague', names: 'prague, praha, прага, prag' },
+  { code: 'GE-TBS', name: 'Tbilisi', names: 'tbilisi, тбилиси, tiflis' },
+  { code: 'AZ-BAK', name: 'Baku', names: 'baku, баку, bakü' },
+  { code: 'UZ-TAS', name: 'Tashkent', names: 'tashkent, ташкент, taşkent' },
+  { code: 'AE-DXB', name: 'Dubai', names: 'dubai, дубай' },
+  { code: 'IL-TLV', name: 'Tel Aviv', names: 'tel aviv, тель-авив' },
+  { code: 'EG-CAI', name: 'Cairo', names: 'cairo, каир, kahire' },
+  { code: 'JP-TYO', name: 'Tokyo', names: 'tokyo, токио' },
+  { code: 'CN-BJS', name: 'Beijing', names: 'beijing, пекин, pekin, peking' },
+  { code: 'KR-SEL', name: 'Seoul', names: 'seoul, сеул' },
+  { code: 'IN-DEL', name: 'Delhi', names: 'delhi, new delhi, дели, нью-дели' },
+  { code: 'IN-BOM', name: 'Mumbai', names: 'mumbai, bombay, мумбаи' },
+  { code: 'AU-SYD', name: 'Sydney', names: 'sydney, сидней' },
+  { code: 'CA-TOR', name: 'Toronto', names: 'toronto, торонто' }
+]);
