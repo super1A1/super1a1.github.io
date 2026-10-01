@@ -555,7 +555,6 @@ const POPULAR_SITES_DATABASE = [
         "description": "Hire freelancers for projects and remote work.",
         "type": "Marketplace"
     },
-    [
   {
     "title": "Christa Pike",
     "url": "https://en.wikipedia.org/wiki/Christa_Pike",
@@ -6556,7 +6555,6 @@ const POPULAR_SITES_DATABASE = [
     "description": "Historical or social overview of Learning.",
     "type": "History / Society"
   }
-]
 ];
 
 // Get links from cookie or use default
