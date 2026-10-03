@@ -1330,7 +1330,7 @@ function handlePacket(msg) {
 
 function getServerAddress() {
   let host = getCookie('talkon_host') || 'talkon.duckdns.org';  // remove any scheme
-  let port = parseInt(getCookie('talkon_port')) || 8765;
+  let port = parseInt(getCookie('talkon_port')) || 8766;
   // Use secure WebSocket if page is HTTPS, otherwise plain WS
   let scheme = (location.protocol === 'https:') ? 'wss' : 'ws';
   return { scheme, host, port };
